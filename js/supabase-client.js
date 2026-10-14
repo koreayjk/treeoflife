@@ -104,8 +104,9 @@ class SupabaseHybridClient {
         }
 
         if (staffMember) {
-          // If staffMember has a password column set in DB, verify it!
-          if (staffMember.password && staffMember.password !== password) {
+          // Accounts without a stored password hash cannot sign in
+          const hash = await window.tolHashPassword(password);
+          if (!staffMember.password_hash || staffMember.password_hash !== hash) {
             return {
               success: false,
               error: 'Authentication Failed: Incorrect password. Please check your password and try again.'
@@ -144,7 +145,7 @@ class SupabaseHybridClient {
     );
 
     if (matched) {
-      if (matched.password && matched.password !== password) {
+      if (!(await window.tolVerifyPassword(matched, password))) {
         return {
           success: false,
           error: 'Authentication Failed: Incorrect password. Please check your password and try again.'

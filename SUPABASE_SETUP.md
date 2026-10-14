@@ -48,6 +48,7 @@ CREATE TABLE IF NOT EXISTS public.staff_users (
   name TEXT NOT NULL,
   role TEXT DEFAULT 'staff', -- 'admin' 또는 'staff'
   avatar TEXT DEFAULT '',
+  password_hash TEXT, -- SHA-256("tol:" + 비밀번호) 값. 평문 비밀번호는 저장하지 않습니다.
   created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
 );
 
@@ -56,8 +57,10 @@ CREATE POLICY "Public Read Staff" ON public.staff_users FOR SELECT USING (true);
 CREATE POLICY "Admin Manage Staff" ON public.staff_users FOR ALL USING (true);
 
 -- 최초 최고 관리자(Super Admin) 등록 (※ 사용자 본인 계정)
-INSERT INTO public.staff_users (id, email, name, role)
-VALUES ('admin_primary', 'john0823.lee@gmail.com', 'Super Admin', 'admin')
+-- password_hash는 비밀번호 해시값입니다. 브라우저 콘솔에서 await tolHashPassword('새비밀번호') 로 생성하세요.
+-- password_hash가 없는 계정은 로그인할 수 없습니다.
+INSERT INTO public.staff_users (id, email, name, role, password_hash)
+VALUES ('admin_primary', 'john0823.lee@gmail.com', 'Super Admin', 'admin', '<여기에_비밀번호_해시>')
 ON CONFLICT (email) DO NOTHING;
 
 -- =============================================================================

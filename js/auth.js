@@ -11,11 +11,26 @@ const DEFAULT_AUTH_USERS = [
     email: "john0823.lee@gmail.com",
     name: "Juhwan Lee",
     role: "admin", // 'admin' | 'staff'
-    password: "TreeOfLife2026!",
+    passwordHash: "85185c0ee9220bff0e2a4dce5790bcdd3dd1c31dab714641bf76785b6282ed70",
     avatar: "",
     grantedAt: "2026-09-04"
   }
 ];
+
+// Passwords are never stored in plain text: only SHA-256("tol:" + password) is kept.
+async function tolHashPassword(password) {
+  const data = new TextEncoder().encode('tol:' + password);
+  const digest = await crypto.subtle.digest('SHA-256', data);
+  return Array.from(new Uint8Array(digest)).map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+async function tolVerifyPassword(user, password) {
+  if (!user || !user.passwordHash || !password) return false;
+  return (await tolHashPassword(password)) === user.passwordHash;
+}
+
+window.tolHashPassword = tolHashPassword;
+window.tolVerifyPassword = tolVerifyPassword;
 
 class AuthRBACEngine {
   constructor() {
@@ -70,11 +85,16 @@ class AuthRBACEngine {
       try {
         const parsed = JSON.parse(saved);
         if (Array.isArray(parsed)) {
-          let filtered = parsed.filter(u => u && u.email && !demoEmails.includes(u.email.toLowerCase()));
-          // Ensure primary admin is always in whitelist
-          if (!filtered.some(u => u.email.toLowerCase() === DEFAULT_AUTH_USERS[0].email.toLowerCase())) {
-            filtered.unshift(DEFAULT_AUTH_USERS[0]);
-          }
+          const primaryEmail = DEFAULT_AUTH_USERS[0].email.toLowerCase();
+          let filtered = parsed.filter(u => u && u.email && !demoEmails.includes(u.email.toLowerCase()) && u.email.toLowerCase() !== primaryEmail);
+          // Ensure primary admin is always in whitelist with the current credentials
+          filtered.unshift(DEFAULT_AUTH_USERS[0]);
+          // Legacy plain-text passwords are discarded; those accounts must be re-granted
+          filtered = filtered.map(u => {
+            if (u.password === undefined) return u;
+            const { password, ...rest } = u;
+            return rest;
+          });
           this.saveUsers(filtered);
           return filtered;
         }
@@ -137,7 +157,7 @@ class AuthRBACEngine {
       (u.id && u.id.toLowerCase() === cleanId)
     );
     if (existing) {
-      if (existing.password && existing.password !== password) {
+      if (!(await tolVerifyPassword(existing, password))) {
         alert("Authentication Failed: Incorrect password. Please try again.");
         return false;
       }
@@ -170,11 +190,15 @@ class AuthRBACEngine {
     return this.currentUser && this.currentUser.role === 'admin';
   }
 
-  async grantPermission(identifier, name, role = 'staff', password = 'TreeOfLife2026!') {
+  async grantPermission(identifier, name, role = 'staff', password = '') {
     const cleanId = (identifier || '').toLowerCase().trim();
     if (!cleanId) return;
 
-    const userPassword = password || 'TreeOfLife2026!';
+    if (!password || password.length < 8) {
+      alert("Please set a password of at least 8 characters for this account.");
+      return;
+    }
+    const passwordHash = await tolHashPassword(password);
     const isEmail = cleanId.includes('@');
     const emailVal = isEmail ? cleanId : `${cleanId}@staff.tol`;
     const usernameVal = isEmail ? cleanId.split('@')[0] : cleanId;
@@ -188,7 +212,8 @@ class AuthRBACEngine {
     if (existing) {
       existing.role = role;
       if (name) existing.name = name;
-      if (password) existing.password = userPassword;
+      existing.passwordHash = passwordHash;
+      delete existing.password;
       if (!existing.username) existing.username = usernameVal;
       if (!existing.email) existing.email = emailVal;
     } else {
@@ -198,7 +223,7 @@ class AuthRBACEngine {
         username: usernameVal,
         name: name || usernameVal,
         role: role,
-        password: userPassword,
+        passwordHash: passwordHash,
         avatar: "",
         grantedAt: new Date().toISOString().split('T')[0]
       });
@@ -217,7 +242,7 @@ class AuthRBACEngine {
           email: emailVal,
           name: name || usernameVal,
           role: role,
-          password: userPassword
+          password_hash: passwordHash
         }, { onConflict: 'email' });
         console.log('[Supabase] Whitelist updated in cloud DB:', emailVal);
       } catch (err) {
@@ -455,7 +480,7 @@ class AuthRBACEngine {
         const email = document.getElementById('grantEmail').value;
         const name = document.getElementById('grantName').value;
         const role = document.getElementById('grantRole').value;
-        const password = document.getElementById('grantPassword') ? document.getElementById('grantPassword').value : 'TreeOfLife2026!';
+        const password = document.getElementById('grantPassword') ? document.getElementById('grantPassword').value : '';
         this.grantPermission(email, name, role, password);
         grantForm.reset();
         alert(`Granted ${role.toUpperCase()} permissions to ${email}`);

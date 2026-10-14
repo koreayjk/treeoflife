@@ -785,10 +785,14 @@ class AdminSettingsEngine {
     e.preventDefault();
     const identifier = document.getElementById('grantUserEmail').value.trim();
     const name = document.getElementById('grantUserName').value.trim();
-    const password = document.getElementById('grantUserPassword') ? document.getElementById('grantUserPassword').value.trim() : 'TreeOfLife2026!';
+    const password = document.getElementById('grantUserPassword') ? document.getElementById('grantUserPassword').value.trim() : '';
     const role = document.getElementById('grantUserRole').value;
 
     if (!identifier) return;
+    if (!password || password.length < 8) {
+      alert("Please set a password of at least 8 characters for this account.");
+      return;
+    }
 
     window.authRBAC.grantPermission(identifier, name, role, password);
     document.getElementById('grantUserEmail').value = '';
