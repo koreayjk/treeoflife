@@ -244,39 +244,7 @@ button {
   flex-shrink: 0;
 }
 
-/* Apple Hamburger Toggle Button */
-.apple-hamburger-btn {
-  display: none;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 5px;
-  width: 38px;
-  height: 38px;
-  border-radius: 8px;
-  background: var(--color-sand-surface);
-  border: 1px solid var(--color-sand-border);
-  cursor: pointer;
-  padding: 0;
-  z-index: 1100;
-  transition: all var(--transition-fast);
-}
-
-.apple-hamburger-btn .bar {
-  width: 18px;
-  height: 1.5px;
-  background: var(--color-forest);
-  border-radius: 2px;
-  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
-}
-
-.apple-hamburger-btn.open .bar:nth-child(1) {
-  transform: translateY(3.25px) rotate(45deg);
-}
-
-.apple-hamburger-btn.open .bar:nth-child(2) {
-  transform: translateY(-3.25px) rotate(-45deg);
-}
+/* Apple Hamburger Toggle Button: see the "Apple 2-Line Parallel Hamburger Button" block below */
 
 @media (max-width: 1180px) {
   .site-header nav {
@@ -2476,6 +2444,10 @@ button {
    ========================================================================== */
 .apple-hamburger-btn {
   display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
   width: 42px;
   height: 42px;
   background: var(--color-sand-surface);
@@ -2483,12 +2455,10 @@ button {
   cursor: pointer;
   position: relative;
   z-index: 2600;
-  padding: 10px 8px;
+  padding: 0;
   border-radius: 10px;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
   transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-  align-items: center;
-  justify-content: center;
 }
 
 .apple-hamburger-btn:hover {
@@ -2496,12 +2466,14 @@ button {
   border-color: rgba(18, 54, 37, 0.2);
 }
 
+/* flex: none keeps the bars from collapsing to 0px inside the fixed-height button */
 .apple-hamburger-btn .bar {
   display: block;
+  flex: none;
   width: 20px;
-  height: 2.5px;
+  height: 2px;
   background: var(--color-forest);
-  margin: 4px auto;
+  margin: 0;
   transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s ease;
   border-radius: 2px;
 }
@@ -2517,11 +2489,11 @@ button {
 }
 
 .apple-hamburger-btn.open .bar:nth-child(1) {
-  transform: translateY(3.25px) rotate(45deg);
+  transform: translateY(4px) rotate(45deg);
 }
 
 .apple-hamburger-btn.open .bar:nth-child(2) {
-  transform: translateY(-3.25px) rotate(-45deg);
+  transform: translateY(-4px) rotate(-45deg);
 }
 
 /* ==========================================================================
@@ -2605,7 +2577,7 @@ button {
     display: none !important;
   }
   .apple-hamburger-btn {
-    display: block;
+    display: flex;
   }
   .nav-menu {
     display: none;
@@ -4305,4 +4277,105 @@ button {
 .lightbox-meta {
   font-size: 0.8rem;
   color: var(--color-text-muted, #556B5D);
+}
+
+/* ==========================================================================
+   Navigation Dropdowns (About / Events)
+   Desktop: opens on hover or keyboard focus. Mobile/tablet overlay: always expanded.
+   ========================================================================== */
+@media (min-width: 1181px) {
+  .nav-item.has-sub {
+    position: relative;
+  }
+
+  .nav-item.has-sub > .nav-link::after {
+    content: "";
+    display: inline-block;
+    width: 5px;
+    height: 5px;
+    margin-left: 5px;
+    border-right: 1.5px solid currentColor;
+    border-bottom: 1.5px solid currentColor;
+    transform: translateY(-2px) rotate(45deg);
+    opacity: 0.7;
+  }
+
+  .nav-sub {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    min-width: 188px;
+    margin: 0;
+    padding: 8px;
+    list-style: none;
+    background: #FFFFFF;
+    border: 1px solid var(--color-sand-border);
+    border-radius: 12px;
+    box-shadow: 0 12px 32px rgba(18, 54, 37, 0.14);
+    opacity: 0;
+    visibility: hidden;
+    transform: translate(-50%, 6px);
+    transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s;
+    z-index: 1200;
+  }
+
+  /* invisible bridge so the menu stays open while the pointer crosses the gap */
+  .nav-sub::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: -12px;
+    height: 12px;
+  }
+
+  .nav-item.has-sub:hover > .nav-sub,
+  .nav-item.has-sub:focus-within > .nav-sub {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, 0);
+  }
+
+  .nav-sub .nav-link {
+    display: block;
+    padding: 9px 12px;
+    border-radius: 8px;
+    font-size: 0.82rem;
+  }
+
+  .nav-sub .nav-link:hover {
+    background: var(--color-sand-surface);
+  }
+}
+
+@media (max-width: 1180px) {
+  .nav-menu .nav-sub {
+    display: flex;
+    flex-direction: column;
+    position: static;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+  }
+
+  .nav-menu .nav-sub .nav-link {
+    font-size: 1rem;
+    font-weight: 650;
+    color: var(--color-text-muted);
+    padding: 8px 0;
+  }
+
+  .nav-menu .nav-sub .nav-link.active {
+    color: var(--color-amber);
+  }
+
+  .nav-menu .nav-item.has-sub > .nav-link {
+    border-bottom: 0;
+  }
 }

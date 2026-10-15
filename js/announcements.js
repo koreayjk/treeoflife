@@ -12,7 +12,7 @@ const DEFAULT_ANNOUNCEMENTS = [
     pinned: true,
     author: "Director Michael Baer",
     content: "We are officially launching our fall campus welcome tables at Blinn College and Texas A&M! Join us at the student crossroads as we welcome arriving international freshmen and scholars with warm greetings, campus guides, and free scriptures in their heart languages.",
-    imageUrl: "https://images.squarespace-cdn.com/content/v1/6712896c9007d056a83565af/b72ba8aa-e21f-4b70-9bba-db66be2e04ac/IMG_9240.jpeg"
+    imageUrl: "images/photos/IMG_9240.jpg"
   },
   {
     id: "notice-002",
@@ -42,7 +42,7 @@ const DEFAULT_ANNOUNCEMENTS = [
     pinned: false,
     author: "Campus Ministry Team",
     content: "Our monthly downtown outreach table will be stationed near Main Street for First Friday. Volunteers are needed for setup at 5:00 PM and hospitality greeting through 9:00 PM. Sign up on the Schedule page or contact the team.",
-    imageUrl: "https://images.squarespace-cdn.com/content/v1/6712896c9007d056a83565af/e8629fff-f094-4a24-afe8-d44e11656140/IMG_9247.jpeg"
+    imageUrl: "images/photos/IMG_9247.jpg"
   }
 ];
 

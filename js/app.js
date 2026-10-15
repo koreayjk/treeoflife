@@ -53,6 +53,13 @@ function initNavigation() {
       link.classList.remove('active');
     }
   });
+
+  // Highlight a dropdown's parent when one of its sub-pages is the current page
+  document.querySelectorAll('.nav-item.has-sub').forEach(item => {
+    const parentLink = item.querySelector(':scope > .nav-link');
+    const hasActiveChild = item.querySelector('.nav-sublink.active');
+    if (parentLink) parentLink.classList.toggle('active', Boolean(hasActiveChild));
+  });
 }
 
 function initAppleMobileBottomBar() {

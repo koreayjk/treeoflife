@@ -5,7 +5,7 @@
 const DEFAULT_PHOTOS = [
   {
     id: "tol-1",
-    imageUrl: "https://images.squarespace-cdn.com/content/v1/6712896c9007d056a83565af/b72ba8aa-e21f-4b70-9bba-db66be2e04ac/IMG_9240.jpeg",
+    imageUrl: "images/photos/IMG_9240.jpg",
     caption: "Sharing the Word of God with international students on campus! Connecting in their native heart languages.",
     tag: "campus",
     location: "Texas A&M Campus, College Station",
@@ -14,7 +14,7 @@ const DEFAULT_PHOTOS = [
   },
   {
     id: "tol-2",
-    imageUrl: "https://images.squarespace-cdn.com/content/v1/6712896c9007d056a83565af/1fbfe444-0229-4db3-bc09-8de1b3e67f15/IMG_9241.jpeg",
+    imageUrl: "images/photos/IMG_9241.jpg",
     caption: "Handing out multi-language Bibles at downtown First Friday! An evening of warm conversations and prayer.",
     tag: "outreach",
     location: "Downtown Bryan, TX",
@@ -23,7 +23,7 @@ const DEFAULT_PHOTOS = [
   },
   {
     id: "tol-3",
-    imageUrl: "https://images.squarespace-cdn.com/content/v1/6712896c9007d056a83565af/e8629fff-f094-4a24-afe8-d44e11656140/IMG_9247.jpeg",
+    imageUrl: "images/photos/IMG_9247.jpg",
     caption: "Deep conversations with international scholars exploring scripture. God's truth knows no language barrier.",
     tag: "bibles",
     location: "Bryan, Texas",
@@ -32,7 +32,7 @@ const DEFAULT_PHOTOS = [
   },
   {
     id: "tol-4",
-    imageUrl: "https://images.squarespace-cdn.com/content/v1/6712896c9007d056a83565af/8ed49f91-1790-4465-9d87-284103ab818e/IMG_9268.jpeg",
+    imageUrl: "images/photos/IMG_9268.jpg",
     caption: "Freshly arrived Bibles in Mandarin, Spanish, Arabic, Hindi, and Portuguese ready for distribution.",
     tag: "bibles",
     location: "Tree of Life Mission Center",
@@ -41,7 +41,7 @@ const DEFAULT_PHOTOS = [
   },
   {
     id: "tol-5",
-    imageUrl: "https://images.squarespace-cdn.com/content/v1/6712896c9007d056a83565af/42d8509c-261a-419b-be56-d416dcc4ce29/IMG_9272.jpeg",
+    imageUrl: "images/photos/IMG_9272.jpg",
     caption: "Warm smiles and welcome packs for arriving international freshmen.",
     tag: "community",
     location: "College Station, TX",
@@ -50,7 +50,7 @@ const DEFAULT_PHOTOS = [
   },
   {
     id: "tol-6",
-    imageUrl: "https://images.squarespace-cdn.com/content/v1/6712896c9007d056a83565af/70e5663f-0b31-4177-b61c-b986a20057fc/IMG_9274.jpeg",
+    imageUrl: "images/photos/IMG_9274.jpg",
     caption: "Praising God together across nations and languages. Unity in Christ.",
     tag: "worship",
     location: "Tree of Life Gathering",
@@ -59,7 +59,7 @@ const DEFAULT_PHOTOS = [
   },
   {
     id: "tol-7",
-    imageUrl: "https://images.squarespace-cdn.com/content/v1/6712896c9007d056a83565af/378f9b4c-8e8f-4df9-b690-80e0c56896c8/IMG_9279.jpeg",
+    imageUrl: "images/photos/IMG_9279.jpg",
     caption: "A student holding scripture in their own heart language for the very first time.",
     tag: "bibles",
     location: "Bryan, Texas",
@@ -68,7 +68,7 @@ const DEFAULT_PHOTOS = [
   },
   {
     id: "tol-8",
-    imageUrl: "https://images.squarespace-cdn.com/content/v1/6712896c9007d056a83565af/9f6bcb38-e44f-4908-b3d6-82e2f79efee3/IMG_9280.jpeg",
+    imageUrl: "images/photos/IMG_9280.jpg",
     caption: "Community dinner and table fellowship with students from 8 different countries.",
     tag: "community",
     location: "Bryan, TX",
@@ -77,7 +77,7 @@ const DEFAULT_PHOTOS = [
   },
   {
     id: "tol-9",
-    imageUrl: "https://images.squarespace-cdn.com/content/v1/6712896c9007d056a83565af/8e8756ed-fc4e-471f-9232-007f7b716c53/IMG_9290.jpeg",
+    imageUrl: "images/photos/IMG_9290.jpg",
     caption: "Campus prayer walk before the start of the semester.",
     tag: "campus",
     location: "Campus Grounds",
@@ -86,7 +86,7 @@ const DEFAULT_PHOTOS = [
   },
   {
     id: "tol-10",
-    imageUrl: "https://images.squarespace-cdn.com/content/v1/6712896c9007d056a83565af/5bbbf516-9342-432e-a8bb-cb5950237740/IMG_9293.jpeg",
+    imageUrl: "images/photos/IMG_9293.jpg",
     caption: "Equipping volunteer leaders with cross-cultural hospitality principles.",
     tag: "community",
     location: "Mission Office, Bryan TX",
@@ -95,7 +95,7 @@ const DEFAULT_PHOTOS = [
   },
   {
     id: "tol-11",
-    imageUrl: "https://images.squarespace-cdn.com/content/v1/6712896c9007d056a83565af/6043dfc6-ef2e-4d0e-bb61-f1ebce82848c/IMG_9297.jpeg",
+    imageUrl: "images/photos/IMG_9297.jpg",
     caption: "Bible welcome table at the international student festival.",
     tag: "outreach",
     location: "Memorial Student Center",
@@ -104,7 +104,7 @@ const DEFAULT_PHOTOS = [
   },
   {
     id: "tol-12",
-    imageUrl: "https://images.squarespace-cdn.com/content/v1/6712896c9007d056a83565af/9218b893-eafe-4574-af95-97520e39a4cc/IMG_9303.jpeg",
+    imageUrl: "images/photos/IMG_9303.jpg",
     caption: "Spreading the powerful message of Jesus, one Bible at a time.",
     tag: "bibles",
     location: "Bryan, Texas",
@@ -276,6 +276,10 @@ class PhotoGalleryEngine {
 
   getThumbnailUrl(url) {
     if (!url) return '';
+    // Locally hosted gallery photos have a pre-generated small version in images/photos/thumbs/
+    if (/^images\/photos\/[^/]+\.jpg$/.test(url)) {
+      return url.replace('images/photos/', 'images/photos/thumbs/');
+    }
     // If it's Squarespace CDN, optimize thumbnail size to 500w (reduces ~500KB to ~44KB)
     if (url.includes('squarespace-cdn.com') && !url.includes('format=')) {
       return url + (url.includes('?') ? '&format=500w' : '?format=500w');
