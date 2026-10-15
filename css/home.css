@@ -264,18 +264,18 @@ html.hero-go .home-hero-media img {
   color: var(--color-text-muted);
 }
 
-/* Wide screens: the photo sits in the right ~58% so the whole group is visible beside the text,
+/* Wide screens: the photo sits in the right half so the group is visible beside the text,
    and fades into the cream background on its left edge. */
 @media (min-width: 1300px) {
   .home-hero-media {
     inset: 0 0 0 auto;
-    width: 58%;
-    -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 24%);
-    mask-image: linear-gradient(90deg, transparent 0%, #000 24%);
+    width: 50%;
+    -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 32%);
+    mask-image: linear-gradient(90deg, transparent 0%, #000 32%);
   }
 
   .home-hero-media img {
-    object-position: 74% 40%;
+    object-position: 78% 40%;
   }
 
   .home-hero::before {
