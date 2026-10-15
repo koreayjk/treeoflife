@@ -395,7 +395,7 @@ function initForms() {
 
 /* ==========================================================================
    Gentle scroll reveal: content fades up ~16px once as it enters the screen.
-   Skipped entirely for visitors who prefer reduced motion.
+   Intentionally kept on even when the OS asks for reduced motion (the movement is tiny).
    ========================================================================== */
 const REVEAL_AUTO_SELECTOR = [
   '.page-hero .container > *', '.section-header', '.editorial-story-row',
@@ -407,7 +407,6 @@ let revealObserver = null;
 
 function initScrollReveal() {
   if (!document.documentElement.classList.contains('js') || !('IntersectionObserver' in window)) return;
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
   document.querySelectorAll(REVEAL_AUTO_SELECTOR).forEach(el => {
     if (el.hasAttribute('data-reveal') || el.closest('.modal-backdrop')) return;
@@ -436,7 +435,7 @@ function initScrollReveal() {
 
 window.tolObserveReveal = function (root) {
   if (!revealObserver) {
-    // Reveal is disabled (reduced motion / unsupported): make sure nothing stays hidden.
+    // Reveal is unsupported here: make sure nothing stays hidden.
     (root.querySelectorAll ? root : document).querySelectorAll('[data-reveal]').forEach(el => el.removeAttribute('data-reveal'));
     return;
   }

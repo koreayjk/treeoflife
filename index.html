@@ -27,14 +27,13 @@
   <link rel="stylesheet" href="css/main.css" />
   <link rel="stylesheet" href="css/home.css" />
   <script>
-    /* Decide up front whether the intro loader plays: first visit of the session only,
-       and never for visitors who prefer reduced motion. Failsafe clears it after 4.5s. */
+    /* Decide up front whether the intro loader plays: first visit of the session only.
+       Failsafe clears it after 4.5s. */
     (function (d) {
-      var h = d.documentElement, seen = false, reduce = false;
+      var h = d.documentElement, seen = false;
       h.classList.add('js');
       try { seen = sessionStorage.getItem('tol_intro') === '1'; } catch (e) {}
-      try { reduce = matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
-      if (seen || reduce) { h.classList.add('hero-go'); return; }
+      if (seen) { h.classList.add('hero-go'); return; }
       h.classList.add('intro-on');
       setTimeout(function () { h.classList.remove('intro-on'); h.classList.add('hero-go'); }, 4500);
     })(document);
@@ -253,8 +252,8 @@
         </div>
         <div>
           <div class="footer-heading">Headquarters</div>
-          <p style="color: rgba(255,255,255,0.7); font-size: 0.88rem;">2305 Barak Ln, Bryan, TX 77802</p>
-          <p style="color: var(--color-amber); font-size: 0.88rem; margin-top: 6px;">info@treeoflifemissions.org</p>
+          <p style="color: var(--color-text-muted); font-size: 0.92rem;">2305 Barak Ln, Bryan, TX 77802</p>
+          <p style="color: var(--color-amber-strong, #B35418); font-size: 0.92rem; margin-top: 6px;">info@treeoflifemissions.org</p>
         </div>
       </div>
       <div class="footer-bottom">
