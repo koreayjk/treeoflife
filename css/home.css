@@ -243,6 +243,7 @@ html.hero-go .home-hero-media img {
 
 .home-hero-stats strong {
   display: block;
+  font-variant-numeric: tabular-nums;
   font-size: clamp(1.6rem, 3vw, 2.2rem);
   font-weight: 850;
   letter-spacing: -0.03em;

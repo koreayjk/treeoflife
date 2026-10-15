@@ -96,6 +96,56 @@
     if (typeof window.tolObserveReveal === 'function') window.tolObserveReveal(list);
   }
 
+  /* Stat numbers (12+, 500,000+) count up once the hero is revealed. The static HTML already holds the
+     final values, so they stay correct if scripts fail. */
+  function initCounters() {
+    var els = document.querySelectorAll('[data-count]');
+    if (!els.length) return;
+
+    function format(n, suffix) {
+      return Math.round(n).toLocaleString('en-US') + (suffix || '');
+    }
+
+    els.forEach(function (el) {
+      el.textContent = format(0, el.getAttribute('data-suffix'));
+    });
+
+    function run() {
+      els.forEach(function (el) {
+        var target = Number(el.getAttribute('data-count'));
+        var suffix = el.getAttribute('data-suffix');
+        var duration = Number(el.getAttribute('data-duration')) || 1800;
+        var startAt = null;
+
+        function frame(now) {
+          if (startAt === null) startAt = now;
+          var t = Math.min(1, (now - startAt) / duration);
+          var eased = 1 - Math.pow(1 - t, 3); // ease-out: quick start, gentle landing
+          el.textContent = format(target * eased, suffix);
+          if (t < 1) requestAnimationFrame(frame);
+        }
+
+        // wait for the stats row to finish fading in
+        setTimeout(function () { requestAnimationFrame(frame); }, 800);
+      });
+    }
+
+    if (html.classList.contains('hero-go')) {
+      run();
+      return;
+    }
+    var observer = new MutationObserver(function () {
+      if (html.classList.contains('hero-go')) {
+        observer.disconnect();
+        run();
+      }
+    });
+    observer.observe(html, { attributes: true, attributeFilter: ['class'] });
+  }
+
   initIntro();
-  document.addEventListener('DOMContentLoaded', initSchedule);
+  document.addEventListener('DOMContentLoaded', function () {
+    initSchedule();
+    initCounters();
+  });
 })();
