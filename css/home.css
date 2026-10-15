@@ -264,31 +264,37 @@ html.hero-go .home-hero-media img {
   color: var(--color-text-muted);
 }
 
-/* Wide screens: the photo sits in the right half so the group is visible beside the text,
-   and fades into the cream background on its left edge. */
+/* Wide screens: the photo sits in the right part of the hero and fades into the cream background on its
+   left edge. The photo is NOT zoomed: it is sized by the hero height and anchored so that the right-hand
+   20% of the picture (the empty strip beside the man in white) is pushed off-screen, trimming only a little
+   of his arm. The box width is capped to what the photo can cover, so it never shows blank edges. */
 @media (min-width: 1300px) {
+  .home-hero {
+    --hero-h: min(100svh - 64px, 900px);
+    min-height: var(--hero-h);
+  }
+
   .home-hero-media {
     inset: 0 0 0 auto;
-    width: 50%;
-    -webkit-mask-image: linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.03) 4%, rgba(0,0,0,0.1) 8%, rgba(0,0,0,0.22) 13%, rgba(0,0,0,0.4) 18%, rgba(0,0,0,0.6) 23%, rgba(0,0,0,0.78) 28%, rgba(0,0,0,0.92) 33%, rgba(0,0,0,0.98) 37%, #000 40%), linear-gradient(180deg, #000 0%, #000 88%, rgba(0,0,0,0.6) 94%, rgba(0,0,0,0) 100%);
+    width: min(50%, calc(var(--hero-h) * 1.0667));
+    overflow: hidden;
+    container-type: size;
+    --fade-x: linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.04) 3%, rgba(0,0,0,0.15) 7%, rgba(0,0,0,0.38) 11%, rgba(0,0,0,0.65) 15%, rgba(0,0,0,0.86) 19%, rgba(0,0,0,0.96) 23%, #000 27%);
+    --fade-y: linear-gradient(180deg, #000 0%, #000 88%, rgba(0,0,0,0.6) 94%, rgba(0,0,0,0) 100%);
+    -webkit-mask-image: var(--fade-x), var(--fade-y);
     -webkit-mask-composite: source-in;
-    mask-image: linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.03) 4%, rgba(0,0,0,0.1) 8%, rgba(0,0,0,0.22) 13%, rgba(0,0,0,0.4) 18%, rgba(0,0,0,0.6) 23%, rgba(0,0,0,0.78) 28%, rgba(0,0,0,0.92) 33%, rgba(0,0,0,0.98) 37%, #000 40%), linear-gradient(180deg, #000 0%, #000 88%, rgba(0,0,0,0.6) 94%, rgba(0,0,0,0) 100%);
+    mask-image: var(--fade-x), var(--fade-y);
     mask-composite: intersect;
   }
 
-  /* Zoom about the left edge of the photo box: the right side of the photo is pushed off-screen, which
-     crops the empty strip beside the man in white (and a little of his arm) at every screen size. */
   .home-hero-media img {
-    object-position: 100% 40%;
-    transform-origin: 0% 45%;
-  }
-
-  .js .home-hero-media img {
-    transform: scale(1.27);
-  }
-
-  html.hero-go .home-hero-media img {
-    transform: scale(1.2);
+    position: absolute;
+    top: 0;
+    left: auto;
+    right: -26.667cqh;   /* 20% of the picture width (4:3 at full box height) hangs off the right edge */
+    width: auto;
+    max-width: none;
+    height: 100cqh;
   }
 
   .home-hero::before {
