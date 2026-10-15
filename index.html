@@ -27,13 +27,17 @@
   <link rel="stylesheet" href="css/main.css" />
   <link rel="stylesheet" href="css/home.css" />
   <script>
-    /* Decide up front whether the intro loader plays: first visit of the session only.
-       Failsafe clears it after 4.5s. */
+    /* Decide up front whether the intro loader plays: on the first visit of a session and on every
+       refresh, but not when moving around the site via links. Failsafe clears it after 4.5s. */
     (function (d) {
-      var h = d.documentElement, seen = false;
+      var h = d.documentElement, seen = false, reloaded = false;
       h.classList.add('js');
       try { seen = sessionStorage.getItem('tol_intro') === '1'; } catch (e) {}
-      if (seen) { h.classList.add('hero-go'); return; }
+      try {
+        var nav = performance.getEntriesByType('navigation')[0];
+        reloaded = nav ? nav.type === 'reload' : (performance.navigation && performance.navigation.type === 1);
+      } catch (e) {}
+      if (seen && !reloaded) { h.classList.add('hero-go'); return; }
       h.classList.add('intro-on');
       setTimeout(function () { h.classList.remove('intro-on'); h.classList.add('hero-go'); }, 4500);
     })(document);
