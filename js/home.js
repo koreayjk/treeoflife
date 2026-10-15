@@ -96,38 +96,69 @@
     if (typeof window.tolObserveReveal === 'function') window.tolObserveReveal(list);
   }
 
-  /* Stat numbers (12+, 500,000+) count up once the hero is revealed. The static HTML already holds the
-     final values, so they stay correct if scripts fail. */
+  /* Stat numbers (12+, 500,000+) roll up like an odometer once the hero is revealed. Each digit is a
+     vertical strip that slides to its final value, which stays smooth (no rapidly changing text). The static
+     HTML already holds the final values, so they stay correct if scripts fail. */
+  function buildOdometer(el) {
+    var finalText = Math.round(Number(el.getAttribute('data-count'))).toLocaleString('en-US') +
+      (el.getAttribute('data-suffix') || '');
+    var digitCount = finalText.replace(/[^0-9]/g, '').length;
+
+    el.setAttribute('aria-label', finalText);
+    el.textContent = '';
+
+    var wrap = document.createElement('span');
+    wrap.className = 'odo';
+    wrap.setAttribute('aria-hidden', 'true');
+
+    var strips = [];
+    var digitIndex = 0;
+    finalText.split('').forEach(function (ch) {
+      if (!/[0-9]/.test(ch)) {
+        var fixed = document.createElement('span');
+        fixed.className = 'odo-fixed';
+        fixed.textContent = ch;
+        wrap.appendChild(fixed);
+        return;
+      }
+      var target = Number(ch);
+      // a "0" would not move at all, so let it make one full turn (0 -> 9 -> 0)
+      var rows = target === 0 ? 10 : target;
+      var win = document.createElement('span');
+      win.className = 'odo-digit';
+      var strip = document.createElement('span');
+      strip.className = 'odo-strip';
+      var html = '';
+      for (var n = 0; n <= rows; n++) html += '<span>' + (n % 10) + '</span>';
+      strip.innerHTML = html;
+      strip.style.setProperty('--rows', rows);
+      strip.style.transitionDelay = (digitIndex * 90) + 'ms';
+      win.appendChild(strip);
+      wrap.appendChild(win);
+      strips.push(strip);
+      digitIndex++;
+    });
+
+    el.appendChild(wrap);
+    return strips;
+  }
+
   function initCounters() {
     var els = document.querySelectorAll('[data-count]');
     if (!els.length) return;
 
-    function format(n, suffix) {
-      return Math.round(n).toLocaleString('en-US') + (suffix || '');
-    }
-
-    els.forEach(function (el) {
-      el.textContent = format(0, el.getAttribute('data-suffix'));
-    });
+    var groups = [];
+    els.forEach(function (el) { groups.push(buildOdometer(el)); });
 
     function run() {
-      els.forEach(function (el) {
-        var target = Number(el.getAttribute('data-count'));
-        var suffix = el.getAttribute('data-suffix');
-        var duration = Number(el.getAttribute('data-duration')) || 1800;
-        var startAt = null;
-
-        function frame(now) {
-          if (startAt === null) startAt = now;
-          var t = Math.min(1, (now - startAt) / duration);
-          var eased = 1 - Math.pow(1 - t, 3); // ease-out: quick start, gentle landing
-          el.textContent = format(target * eased, suffix);
-          if (t < 1) requestAnimationFrame(frame);
-        }
-
-        // wait for the stats row to finish fading in
-        setTimeout(function () { requestAnimationFrame(frame); }, 800);
-      });
+      // wait for the stats row to finish fading in
+      setTimeout(function () {
+        requestAnimationFrame(function () {
+          groups.forEach(function (strips) {
+            strips.forEach(function (strip) { strip.classList.add('is-rolling'); });
+          });
+        });
+      }, 800);
     }
 
     if (html.classList.contains('hero-go')) {

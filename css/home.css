@@ -257,7 +257,7 @@ html.hero-go .home-hero-media img {
   letter-spacing: -0.01em;
 }
 
-.home-hero-stats span {
+.home-hero-stats > div > span {
   font-size: 0.8rem;
   font-weight: 700;
   letter-spacing: 0.08em;
@@ -301,6 +301,43 @@ html.hero-go .home-hero-media img {
   .home-hero::before {
     display: none;
   }
+}
+
+/* Odometer digits for the hero stats (built by initCounters in js/home.js) */
+.odo {
+  display: inline-flex;
+  align-items: flex-start;
+  height: 1.1em;
+  line-height: 1.1;
+}
+
+.odo-fixed {
+  display: block;
+  height: 1.1em;
+}
+
+.odo-digit {
+  display: block;
+  width: 1ch;
+  height: 1.1em;
+  margin-right: -0.03em;
+  overflow: hidden;
+}
+
+.odo-strip {
+  display: block;
+  transform: translateY(0);
+  transition: transform 2.4s cubic-bezier(0.33, 0, 0.15, 1);
+  will-change: transform;
+}
+
+.odo-strip > span {
+  display: block;
+  height: 1.1em;
+}
+
+.odo-strip.is-rolling {
+  transform: translateY(calc(var(--rows) * -1.1em));
 }
 
 /* Hero entrance: one soft fade-up per element, in order. */
