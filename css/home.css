@@ -268,8 +268,9 @@ html.hero-go .home-hero-media img {
    and fades into the cream background on its left edge. */
 @media (min-width: 1300px) {
   .home-hero-media {
-    inset: 0 0 0 auto;
-    width: 50%;
+    /* extends 130px past the right edge so the empty strip beside the man in white is cropped away */
+    inset: 0 -130px 0 auto;
+    width: calc(50% + 130px);
     -webkit-mask-image: linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.03) 4%, rgba(0,0,0,0.1) 8%, rgba(0,0,0,0.22) 13%, rgba(0,0,0,0.4) 18%, rgba(0,0,0,0.6) 23%, rgba(0,0,0,0.78) 28%, rgba(0,0,0,0.92) 33%, rgba(0,0,0,0.98) 37%, #000 40%), linear-gradient(180deg, #000 0%, #000 88%, rgba(0,0,0,0.6) 94%, rgba(0,0,0,0) 100%);
     -webkit-mask-composite: source-in;
     mask-image: linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.03) 4%, rgba(0,0,0,0.1) 8%, rgba(0,0,0,0.22) 13%, rgba(0,0,0,0.4) 18%, rgba(0,0,0,0.6) 23%, rgba(0,0,0,0.78) 28%, rgba(0,0,0,0.92) 33%, rgba(0,0,0,0.98) 37%, #000 40%), linear-gradient(180deg, #000 0%, #000 88%, rgba(0,0,0,0.6) 94%, rgba(0,0,0,0) 100%);
@@ -277,7 +278,7 @@ html.hero-go .home-hero-media img {
   }
 
   .home-hero-media img {
-    object-position: 78% 40%;
+    object-position: 100% 40%;
   }
 
   .home-hero::before {
