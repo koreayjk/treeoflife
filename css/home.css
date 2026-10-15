@@ -264,6 +264,25 @@ html.hero-go .home-hero-media img {
   color: var(--color-text-muted);
 }
 
+/* Wide screens: the photo sits in the right ~58% so the whole group is visible beside the text,
+   and fades into the cream background on its left edge. */
+@media (min-width: 1300px) {
+  .home-hero-media {
+    inset: 0 0 0 auto;
+    width: 58%;
+    -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 24%);
+    mask-image: linear-gradient(90deg, transparent 0%, #000 24%);
+  }
+
+  .home-hero-media img {
+    object-position: 74% 40%;
+  }
+
+  .home-hero::before {
+    display: none;
+  }
+}
+
 /* Hero entrance: one soft fade-up per element, in order. */
 .js .hero-anim {
   opacity: 0;
