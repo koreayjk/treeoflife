@@ -266,7 +266,7 @@ html.hero-go .home-hero-media img {
 
 /* Wide screens: the photo sits in the right part of the hero and fades into the cream background on its
    left edge. The photo is NOT zoomed: it is sized by the hero height and anchored so that the right-hand
-   20% of the picture (the empty strip beside the man in white) is pushed off-screen, trimming only a little
+   17.5% of the picture (the empty strip beside the man in white) is pushed off-screen, trimming only a little
    of his arm. The box width is capped to what the photo can cover, so it never shows blank edges. */
 @media (min-width: 1300px) {
   .home-hero {
@@ -291,7 +291,7 @@ html.hero-go .home-hero-media img {
     position: absolute;
     top: 0;
     left: auto;
-    right: -26.667cqh;   /* 20% of the picture width (4:3 at full box height) hangs off the right edge */
+    right: -23.333cqh;   /* 17.5% of the picture width (4:3 at full box height) hangs off the right edge */
     width: auto;
     max-width: none;
     height: 100cqh;
