@@ -25,9 +25,33 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 
   <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="css/home.css" />
+  <script>
+    /* Decide up front whether the intro loader plays: first visit of the session only,
+       and never for visitors who prefer reduced motion. Failsafe clears it after 4.5s. */
+    (function (d) {
+      var h = d.documentElement, seen = false, reduce = false;
+      h.classList.add('js');
+      try { seen = sessionStorage.getItem('tol_intro') === '1'; } catch (e) {}
+      try { reduce = matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
+      if (seen || reduce) { h.classList.add('hero-go'); return; }
+      h.classList.add('intro-on');
+      setTimeout(function () { h.classList.remove('intro-on'); h.classList.add('hero-go'); }, 4500);
+    })(document);
+  </script>
 </head>
 
 <body>
+
+  <!-- Intro loader (first visit per session) -->
+  <div class="intro-loader" id="introLoader" aria-hidden="true">
+    <div class="intro-inner">
+      <img src="images/logo.png" alt="" class="intro-logo" />
+      <div class="intro-title">Tree of Life</div>
+      <div class="intro-sub">Global Missions</div>
+      <div class="intro-bar"><span></span></div>
+    </div>
+  </div>
 
   <!-- Header -->
   <header class="site-header">
@@ -80,99 +104,123 @@
   </header>
 
   <main>
-    <!-- Compact 2-Column Editorial Hero (Easy to View at a Glance) -->
-    <section class="editorial-hero">
+    <!-- Hero -->
+    <section class="home-hero" aria-labelledby="heroTitle">
+      <div class="home-hero-media">
+        <img src="images/photos/IMG_9241.jpg" alt="Volunteers and students smiling together with Bibles at a Texas campus welcome table" fetchpriority="high" />
+      </div>
       <div class="container">
-        <div class="hero-compact-grid">
-
-          <!-- Left Column: Typography & CTAs -->
-          <div class="hero-text-col">
-            <div class="hero-tag-badge">
-              <i class="fa-solid fa-location-dot" style="color: var(--color-amber);"></i> International Student Mission
-              • Bryan, Texas
-            </div>
-            <h1 class="hero-title">
-              Placing God’s Word into hands in their <span class="highlight">native heart languages</span>.
-            </h1>
-            <p class="hero-desc">
-              Every semester, thousands of international and national students come to Texas. We reach out to both,
-              welcoming them with Christian hospitality and sharing the living truth of Jesus—especially with students
-              from nations where scriptures are scarce.
-            <div class="hero-cta-row">
-              <a href="giving.html" class="btn btn-primary">
-                <i class="fa-solid fa-heart"></i> Sponsor Native Bibles
-              </a>
-              <a href="events.html" class="apple-link-cta" style="margin-left: 10px;">
-                View Schedule & Join <i class="fa-solid fa-chevron-right"></i>
-              </a>
-            </div>
+        <div class="home-hero-copy">
+          <div class="home-hero-eyebrow hero-anim" style="--i:0">
+            <i class="fa-solid fa-location-dot"></i> International Student Mission &middot; Bryan, Texas
           </div>
-
-          <!-- Right Column: High-Density Photo & Impact Card -->
-          <div class="hero-media-card">
-            <div class="hero-img-wrap">
-              <img
-                src="images/photos/IMG_9240.jpg"
-                alt="Tree of Life Student Outreach" />
-            </div>
-            <div class="hero-impact-strip">
-              <div>
-                <div class="impact-num">12+</div>
-                <div class="impact-label">Native Languages</div>
-              </div>
-              <div>
-                <div class="impact-num">500,000+</div>
-                <div class="impact-label">Bibles Distributed</div>
-              </div>
-            </div>
+          <h1 class="home-hero-title hero-anim" id="heroTitle" style="--i:1">
+            Placing God&rsquo;s Word into hands in their <em>native heart languages</em>.
+          </h1>
+          <p class="home-hero-desc hero-anim" style="--i:2">
+            Every semester, thousands of international and national students come to Texas. We welcome them with
+            Christian hospitality and share the living truth of Jesus&mdash;especially with students from nations where
+            scriptures are scarce.
+          </p>
+          <div class="home-hero-cta hero-anim" style="--i:3">
+            <a href="https://www.zeffy.com/donation-form/d82f4d0f-7639-4bd9-8df0-7ef23ee0d037" target="_blank" rel="noopener noreferrer" class="btn btn-hero btn-hero-give">
+              <i class="fa-solid fa-heart"></i> Sponsor Native Bibles
+            </a>
+            <a href="events.html" class="btn btn-hero btn-hero-ghost">
+              Join Us This Week <i class="fa-solid fa-arrow-right"></i>
+            </a>
           </div>
-
+          <p class="home-hero-trust hero-anim" style="--i:4">
+            <i class="fa-solid fa-shield-heart"></i> Tax-deductible 501(c)(3) &middot; 0% platform fees through Zeffy
+          </p>
+        </div>
+        <div class="home-hero-stats hero-anim" style="--i:5">
+          <div><strong>12+</strong><span>Native languages</span></div>
+          <div><strong>500,000+</strong><span>Bibles distributed</span></div>
+          <div class="stat-place"><strong>Bryan &amp; College Station</strong><span>Texas</span></div>
         </div>
       </div>
     </section>
 
-    <!-- Editorial Storytelling Rows (Natural Flow) -->
-    <section class="section section-bg-sand">
+    <!-- Upcoming gatherings -->
+    <section class="home-section" id="schedule" aria-labelledby="upcomingTitle">
+      <div class="container upcoming-grid">
+        <div class="home-section-head" data-reveal>
+          <span class="section-tag">Join us</span>
+          <h2 id="upcomingTitle">Upcoming Gatherings</h2>
+          <p>Come to a campus table, a dinner, or an outreach. Everyone is welcome&mdash;no experience needed, just come.</p>
+          <p class="upcoming-note"><i class="fa-solid fa-utensils"></i> Our weekly Thursday dinners give international students a home-cooked meal and a safe place to ask spiritual questions without judgment.</p>
+          <a href="events.html" class="upcoming-all">See the full schedule <i class="fa-solid fa-arrow-right"></i></a>
+        </div>
+        <ul class="upcoming-list" id="upcomingList" aria-live="polite">
+          <li class="upcoming-empty">Loading the schedule&hellip;</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Ministry -->
+    <section class="home-section ministry-section" aria-labelledby="ministryTitle">
       <div class="container">
-
-        <!-- Story Row 1: Heart Languages -->
-        <div class="editorial-story-row">
-          <div class="story-img-frame">
-            <img
-              src="images/photos/IMG_9247.jpg"
-              alt="Bible Conversations" />
-          </div>
-          <div class="story-text-body">
-            <span class="section-tag">Why Native Languages Matter</span>
-            <h3>Bridging Hearts Beyond English</h3>
-            <p>
-              While students learn English for their academic pursuits, faith remains deeply personal.
-              By providing Bibles in English, Spanish (Latin American), Spanish (European), Arabic, Chinese, French,
-              German, Russian, Hindi, Urdu, Korean, and Italian,
-              we give students the opportunity to encounter God’s Word in the language of their hearts and heritage.
-            </p>
-            <a href="ministries.html" class="apple-link-cta">Explore Ministries <i
-                class="fa-solid fa-chevron-right"></i></a>
-          </div>
+        <div class="home-section-head" data-reveal>
+          <span class="section-tag">What we do</span>
+          <h2 id="ministryTitle">Bridging hearts beyond English</h2>
+          <p>
+            While students learn English for their studies, faith remains deeply personal. We give them the chance to
+            meet God&rsquo;s Word in the language of their hearts and heritage.
+          </p>
         </div>
-
-        <!-- Story Row 2: Table Fellowship -->
-        <div class="editorial-story-row reverse">
-          <div class="story-img-frame">
-            <img
-              src="images/photos/IMG_9280.jpg"
-              alt="Home-cooked Hospitality" />
-          </div>
-          <div class="story-text-body">
-            <span class="section-tag">Hospitality & Culture</span>
-            <h3>Thursday Night Table Fellowship</h3>
-            <p>
-              Our weekly dinners in Bryan provide international students with home-cooked meals, warm companionship, and
-              a safe space to ask spiritual questions without judgment.
-            </p>
-            <a href="events.html" class="apple-link-cta">Join a Table <i class="fa-solid fa-chevron-right"></i></a>
-          </div>
+        <div class="pillar-grid">
+          <article class="pillar-card" data-reveal style="--d:0">
+            <img src="images/photos/IMG_9272.jpg" alt="A student receiving a Bible in her own language" loading="lazy" />
+            <div class="pillar-body">
+              <h3>Bibles in their own language</h3>
+              <p>English, Spanish, Arabic, Chinese, French, German, Russian, Hindi, Urdu, Korean, Italian and more&mdash;given free to students.</p>
+              <a href="ministries.html">Explore ministries <i class="fa-solid fa-chevron-right"></i></a>
+            </div>
+          </article>
+          <article class="pillar-card" data-reveal style="--d:1">
+            <img src="images/photos/IMG_9279.jpg" alt="Volunteers standing behind a Free Bibles table on campus" loading="lazy" />
+            <div class="pillar-body">
+              <h3>Campus welcome tables</h3>
+              <p>Friendly tables at Blinn College and Texas A&amp;M welcome students as they arrive, with free Bibles and a warm conversation.</p>
+              <a href="events.html">See where we are <i class="fa-solid fa-chevron-right"></i></a>
+            </div>
+          </article>
+          <article class="pillar-card" data-reveal style="--d:2">
+            <img src="images/photos/IMG_9247.jpg" alt="A student in conversation with volunteers" loading="lazy" />
+            <div class="pillar-body">
+              <h3>Thursday night table fellowship</h3>
+              <p>Weekly dinners in Bryan with home-cooked meals, warm companionship, and room to ask honest questions.</p>
+              <a href="events.html">Join a table <i class="fa-solid fa-chevron-right"></i></a>
+            </div>
+          </article>
         </div>
+      </div>
+    </section>
+
+    <!-- Give -->
+    <section class="home-section give-section" aria-labelledby="giveTitle">
+      <div class="container give-grid">
+        <div data-reveal>
+          <span class="section-tag">Partner with us</span>
+          <h2 class="give-title" id="giveTitle">Put a Bible in a student&rsquo;s hands.</h2>
+          <p class="give-desc">
+            Every Bible, every dinner and every campus table is made possible by people who give. Your gift goes
+            directly to native-language Bibles and hospitality for international students.
+          </p>
+          <div class="give-actions">
+            <a href="https://www.zeffy.com/donation-form/d82f4d0f-7639-4bd9-8df0-7ef23ee0d037" target="_blank" rel="noopener noreferrer" class="btn btn-hero btn-hero-give">
+              <i class="fa-solid fa-heart"></i> Give Now
+            </a>
+            <a href="giving.html" class="btn btn-hero btn-hero-ghost">Give monthly or by other means</a>
+          </div>
+          <p class="give-fine">Tax-deductible 501(c)(3) &middot; Secure giving through Zeffy &middot; 0% platform fees</p>
+        </div>
+        <ul class="give-points">
+          <li data-reveal style="--d:0"><i class="fa-solid fa-book-bible"></i><div><strong>Native-language Bibles</strong><span>Scripture in 12+ languages for students from nations where it is scarce.</span></div></li>
+          <li data-reveal style="--d:1"><i class="fa-solid fa-utensils"></i><div><strong>Hospitality that stays with them</strong><span>Weekly dinners and friendships that make Texas feel like home.</span></div></li>
+          <li data-reveal style="--d:2"><i class="fa-solid fa-hand-holding-heart"></i><div><strong>Monthly partners sustain the mission</strong><span>A small monthly gift helps us plan ahead and reach more students each semester.</span></div></li>
+        </ul>
       </div>
     </section>
   </main>
@@ -226,6 +274,8 @@
   <script src="js/auth.js?v=2.0"></script>
   <script src="js/admin-settings.js"></script>
   <script src="js/app.js"></script>
+  <script src="js/schedule.js"></script>
+  <script src="js/home.js"></script>
 </body>
 
 </html>

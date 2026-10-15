@@ -391,3 +391,57 @@ function initForms() {
 }
 
 
+
+
+/* ==========================================================================
+   Gentle scroll reveal: content fades up ~16px once as it enters the screen.
+   Skipped entirely for visitors who prefer reduced motion.
+   ========================================================================== */
+const REVEAL_AUTO_SELECTOR = [
+  '.page-hero .container > *', '.section-header', '.editorial-story-row',
+  '.team-card', '.pathway-card', '.companion-card', '.contact-card',
+  '.about-founder-card', '.study-prompt-card'
+].join(',');
+
+let revealObserver = null;
+
+function initScrollReveal() {
+  if (!document.documentElement.classList.contains('js') || !('IntersectionObserver' in window)) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  document.querySelectorAll(REVEAL_AUTO_SELECTOR).forEach(el => {
+    if (el.hasAttribute('data-reveal') || el.closest('.modal-backdrop')) return;
+    el.setAttribute('data-reveal', '');
+    const index = Array.prototype.indexOf.call(el.parentElement.children, el);
+    el.style.setProperty('--d', Math.min(index, 4));
+  });
+
+  revealObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const el = entry.target;
+      revealObserver.unobserve(el);
+      el.classList.add('is-in');
+      // Drop the helper attribute afterwards so hover transforms on cards keep working.
+      setTimeout(() => {
+        el.removeAttribute('data-reveal');
+        el.classList.remove('is-in');
+        el.style.removeProperty('--d');
+      }, 1200);
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -6% 0px' });
+
+  window.tolObserveReveal(document);
+}
+
+window.tolObserveReveal = function (root) {
+  if (!revealObserver) {
+    // Reveal is disabled (reduced motion / unsupported): make sure nothing stays hidden.
+    (root.querySelectorAll ? root : document).querySelectorAll('[data-reveal]').forEach(el => el.removeAttribute('data-reveal'));
+    return;
+  }
+  (root.querySelectorAll ? root : document).querySelectorAll('[data-reveal]').forEach(el => revealObserver.observe(el));
+};
+
+// app.js is loaded at the end of <body>, so the DOM is parsed: tag and observe right away to avoid a flash.
+initScrollReveal();
