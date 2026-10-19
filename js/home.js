@@ -65,7 +65,7 @@
 
     if (!upcoming.length) {
       list.innerHTML =
-        '<li class="upcoming-empty">We gather every week. Check the full schedule or contact us to find the next gathering near you.</li>';
+        '<li class="events-empty">We gather every week. Check the full schedule or contact us to find the next gathering near you.</li>';
       return;
     }
 
@@ -77,17 +77,19 @@
       var d = new Date(p[0], p[1] - 1, p[2]);
       var isToday = e.date === todayKey;
       return (
-        '<li class="upcoming-item" data-reveal style="--d:' + i + '">' +
-          '<a href="events.html" class="upcoming-link">' +
-            '<div class="upcoming-date" aria-hidden="true"><span>' + months[d.getMonth()] + '</span><strong>' + d.getDate() + '</strong></div>' +
-            '<div class="upcoming-body">' +
-              '<div class="upcoming-meta">' + (isToday ? '<em class="upcoming-today">Today</em>' : '') +
-                days[d.getDay()] + ', ' + months[d.getMonth()] + ' ' + d.getDate() + ' · ' + esc(e.time) +
-                (e.tag ? ' <span class="upcoming-tag">' + esc(e.tag) + '</span>' : '') + '</div>' +
+        '<li class="event" data-reveal style="--d:' + i + '">' +
+          '<a href="events.html" class="event-link">' +
+            '<div class="event-date" aria-hidden="true"><span>' + months[d.getMonth()] + '</span><strong>' + d.getDate() + '</strong></div>' +
+            '<div class="event-main">' +
               '<h3>' + esc(e.title) + '</h3>' +
-              '<p><i class="fa-solid fa-location-dot"></i> ' + esc(e.place) + '</p>' +
+              '<p>' + esc(e.place) + '</p>' +
             '</div>' +
-            '<i class="fa-solid fa-chevron-right upcoming-arrow" aria-hidden="true"></i>' +
+            '<div class="event-when">' +
+              (isToday ? '<em class="event-today">Today</em>' : '') +
+              '<span>' + days[d.getDay()] + '</span>' +
+              '<span>' + esc(e.time) + '</span>' +
+            '</div>' +
+            '<span class="event-arrow" aria-hidden="true">&rarr;</span>' +
           '</a>' +
         '</li>'
       );

@@ -336,7 +336,7 @@ class AnnouncementsEngine {
     };
 
     const categoryColors = {
-      urgent: "background: #FDF2E9; color: #C96623; border: 1px solid #FADBD8;",
+      urgent: "background: #FDF2E9; color: #9A5244; border: 1px solid #FADBD8;",
       outreach: "background: #E8F8F5; color: #117A65; border: 1px solid #D1F2EB;",
       campus: "background: #EAF2F8; color: #2471A3; border: 1px solid #D4E6F1;",
       fellowship: "background: #FEF9E7; color: #B7950B; border: 1px solid #FCF3CF;",
@@ -347,7 +347,7 @@ class AnnouncementsEngine {
       const catLabel = categoryNames[item.category] || "Ministry Notice";
       const catStyle = categoryColors[item.category] || categoryColors.general;
       const pinnedBadge = item.pinned
-        ? `<span style="display: inline-flex; align-items: center; gap: 4px; background: rgba(201, 102, 35, 0.12); color: var(--color-amber); padding: 3px 8px; border-radius: 999px; font-size: 0.72rem; font-weight: 800; text-transform: uppercase;">
+        ? `<span style="display: inline-flex; align-items: center; gap: 4px; background: rgba(154, 82, 68, 0.12); color: var(--color-amber); padding: 3px 8px; border-radius: 999px; font-size: 0.72rem; font-weight: 800; text-transform: uppercase;">
              <i class="fa-solid fa-thumbtack"></i> Pinned
            </span>`
         : "";
@@ -366,7 +366,7 @@ class AnnouncementsEngine {
         : "";
 
       return `
-        <article class="notice-card ${item.pinned ? 'pinned' : ''}" style="background: #FFFFFF; border: 1px solid ${item.pinned ? 'var(--color-amber)' : 'var(--color-sand-border)'}; border-radius: 14px; padding: 24px; margin-bottom: 20px; box-shadow: 0 4px 14px rgba(18, 54, 37, 0.05); position: relative;">
+        <article class="notice-card ${item.pinned ? 'pinned' : ''}" style="background: #FFFFFF; border: 1px solid ${item.pinned ? 'var(--color-amber)' : 'var(--color-sand-border)'}; border-radius: 14px; padding: 24px; margin-bottom: 20px; box-shadow: 0 4px 14px rgba(98, 42, 45, 0.05); position: relative;">
           
           <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 12px; flex-wrap: wrap;">
             <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">

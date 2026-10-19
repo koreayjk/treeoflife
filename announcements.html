@@ -22,6 +22,9 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
   
   <script>document.documentElement.classList.add('js');</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Fraunces:ital,opsz,wght@1,9..144,400;1,9..144,500&family=Source+Sans+3:wght@400;600;700&display=swap" />
   <link rel="stylesheet" href="css/main.css" />
   <link rel="stylesheet" href="css/instagram-gallery.css" />
 
@@ -63,7 +66,7 @@
 
     .notice-card.pinned {
       border: 1.5px solid var(--color-amber);
-      background: linear-gradient(180deg, #FFFFFF 0%, rgba(201, 102, 35, 0.02) 100%);
+      background: linear-gradient(180deg, #FFFFFF 0%, rgba(154, 82, 68, 0.02) 100%);
     }
 
     .notice-top-meta {
@@ -155,8 +158,8 @@
 
     .notice-image-frame:hover,
     .notice-image-trigger:hover {
-      border-color: var(--color-forest, #123625);
-      box-shadow: 0 8px 24px rgba(18, 54, 37, 0.09);
+      border-color: var(--color-forest, #622A2D);
+      box-shadow: 0 8px 24px rgba(98, 42, 45, 0.09);
     }
 
     .notice-image-frame img,
@@ -181,7 +184,7 @@
       position: absolute;
       bottom: 12px;
       right: 12px;
-      background: rgba(18, 54, 37, 0.88);
+      background: rgba(98, 42, 45, 0.88);
       color: #FFFFFF;
       backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
@@ -203,7 +206,7 @@
 
     .notice-image-frame:hover .notice-expand-badge,
     .notice-image-trigger:hover .notice-expand-badge {
-      background: #123625;
+      background: #622A2D;
       transform: translateY(-2px);
     }
 
@@ -447,7 +450,7 @@
 
   <!-- Image Lightbox Modal for Notice Images -->
   <div class="modal-backdrop" id="noticeImageLightbox">
-    <div style="max-width: 980px; width: 92%; max-height: 90vh; background: #0E2419; border-radius: 16px; overflow: hidden; position: relative; box-shadow: 0 25px 70px rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.15); display: flex; align-items: center; justify-content: center; padding: 18px;">
+    <div style="max-width: 980px; width: 92%; max-height: 90vh; background: #2A1214; border-radius: 16px; overflow: hidden; position: relative; box-shadow: 0 25px 70px rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.15); display: flex; align-items: center; justify-content: center; padding: 18px;">
       <button id="closeNoticeLightboxBtn" aria-label="Close" style="position: absolute; top: 14px; right: 14px; background: rgba(0,0,0,0.65); color: #fff; border: 1px solid rgba(255,255,255,0.25); border-radius: 50%; width: 38px; height: 38px; font-size: 1.3rem; cursor: pointer; z-index: 10; display: flex; align-items: center; justify-content: center; transition: background 0.2s;">
         &times;
       </button>

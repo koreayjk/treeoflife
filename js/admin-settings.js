@@ -658,7 +658,7 @@ class AdminSettingsEngine {
     badge.textContent = `${list.length} Recipient(s)`;
 
     if (previewContainer) {
-      previewContainer.innerHTML = list.map(em => `<span class="email-chip" style="background: rgba(18,54,37,0.08);">${em}</span>`).join('');
+      previewContainer.innerHTML = list.map(em => `<span class="email-chip" style="background: rgba(98, 42, 45,0.08);">${em}</span>`).join('');
     }
   }
 
@@ -1042,7 +1042,7 @@ class AdminSettingsEngine {
       if (data.success) {
         if (statusBanner) {
           statusBanner.style.display = 'block';
-          statusBanner.style.background = 'rgba(18, 54, 37, 0.1)';
+          statusBanner.style.background = 'rgba(98, 42, 45, 0.1)';
           statusBanner.style.color = 'var(--color-forest)';
           statusBanner.style.border = '1px solid var(--color-forest)';
           statusBanner.innerHTML = `<i class="fa-solid fa-circle-check"></i> <strong>Broadcast Dispatched!</strong> Live email sent to ${recipients}.`;
