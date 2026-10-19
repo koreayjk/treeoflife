@@ -377,12 +377,8 @@
       var depth = Math.pow(Math.random(), 1.4);              // 0 = near (small, crisp), 1 = far (big, pale)
       var size = (22 + depth * 44) * (font.boost || 1) * (small ? 0.78 : 1);
       var opacity = 0.95 - depth * 0.55;
-      var speed = 26 - depth * 12;                            // px per second
-      var duration = rand(11000, 18000);
-      var angle = rand(-40, 40) * Math.PI / 180;              // 0 = straight up
-      var travel = speed * duration / 1000;
-      var dx = Math.sin(angle) * travel;
-      var dy = -Math.cos(angle) * travel;
+      var speed = 40 - depth * 18;                            // px per second
+      var angle = rand(-25, 25) * Math.PI / 180;              // 0 = straight up
       var tilt = rand(-7, 7);
       var tiltDrift = rand(-3, 3);
 
@@ -397,43 +393,39 @@
       field.appendChild(el);
       var w = el.offsetWidth, h = el.offsetHeight;
 
-      // random place: anywhere across the field (lower 70%, so there is room to drift up); this is where the word is right now
+      // window effect: every word enters fully below the bottom edge and leaves fully above the top edge
+      var dist = fh + h + 4;
+      var duration = dist / speed * 1000;
+      var dy = -dist;
+      var dx = Math.tan(angle) * dist;
       var now = performance.now();
-      var progress0 = prefill ? rand(0.05, 0.7) : 0;
+      var progress0 = prefill ? rand(0.05, 0.85) : 0;
+      var minX = -w * 0.1, maxX = fw - w * 0.9;
+      if (dx > 0 ? dx > maxX - minX : -dx > maxX - minX) dx = dx > 0 ? (maxX - minX) * 0.5 : -(maxX - minX) * 0.5;
+      // choose a start x so the whole path stays inside sideways
+      var lo = Math.max(minX, minX - dx), hi = Math.min(maxX, maxX - dx);
+      if (hi < lo) { dx = 0; lo = minX; hi = maxX; }
       var best = null;
       for (var tries = 0; tries < 14 && !best; tries++) {
-        var x = rand(-w * 0.15, fw - w * 0.85);
-        // new words always rise in from the bottom edge; only the words present at load are scattered mid-field
-        var y = prefill ? rand(fh * 0.3, fh - h * 0.6) : fh - h * rand(0.1, 0.6);
-        var cand = { x: x, y: y, w: w, h: h };
+        var sx = rand(lo, hi);
+        var cand = { x: sx + dx * progress0, y: fh + 2 + dy * progress0, w: w, h: h };
         var ok = true;
         for (var i = 0; i < alive.length; i++) {
           if (overlaps(cand, currentRect(alive[i], now), 10)) { ok = false; break; }
         }
-        if (ok) best = cand;
+        if (ok) best = { sx: sx };
       }
       if (!best) { field.removeChild(el); return; }
 
-      // keep the whole path inside the field sideways so words are not sliced off at the edges
-      var minX = -w * 0.1, maxX = fw - w * 0.9;
-      function inside(d) {
-        var sx = best.x - d * progress0, ex = best.x + d * (1 - progress0);
-        return sx >= minX && sx <= maxX && ex >= minX && ex <= maxX;
-      }
-      if (!inside(dx)) dx = -dx;
-      if (!inside(dx)) dx = dx * 0.25;
-
-      var rec = { x: best.x - dx * progress0, y: best.y - dy * progress0, dx: dx, dy: dy, w: w, h: h, duration: duration, born: now - progress0 * duration };
+      var rec = { x: best.sx, y: fh + 2, dx: dx, dy: dy, w: w, h: h, duration: duration, born: now - progress0 * duration };
       // when prefilling, start the word part-way along its path
       var startX = rec.x, startY = rec.y;
       function at(t) {
         return 'translate(' + (startX + dx * t).toFixed(1) + 'px,' + (startY + dy * t).toFixed(1) + 'px) rotate(' + (tilt + t * tiltDrift).toFixed(1) + 'deg)';
       }
       var frames = [
-        { transform: at(0), opacity: 0, offset: 0 },
-        { transform: at(0.2), opacity: opacity, offset: 0.2 },
-        { transform: at(0.78), opacity: opacity, offset: 0.78 },
-        { transform: at(1), opacity: 0, offset: 1 }
+        { transform: at(0), opacity: opacity, offset: 0 },
+        { transform: at(1), opacity: opacity, offset: 1 }
       ];
       var anim = el.animate(frames, { duration: duration, easing: 'linear', fill: 'forwards' });
       if (prefill) anim.currentTime = progress0 * duration;

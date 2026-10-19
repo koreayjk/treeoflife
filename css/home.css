@@ -331,8 +331,6 @@ html.intro-on .intro-loader {
   position: relative;
   height: 440px;
   overflow: hidden;
-  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 14%, #000 86%, transparent 100%);
-  mask-image: linear-gradient(180deg, transparent 0%, #000 14%, #000 86%, transparent 100%);
 }
 
 .rise-word {
