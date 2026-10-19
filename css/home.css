@@ -325,63 +325,41 @@ html.intro-on .intro-loader {
   color: var(--color-forest);
 }
 
-.rise-window {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 0 28px;
-  height: 400px;
+/* Floating "Bible" words: JS (initRiseField) spawns each word at a random place with its own direction, speed,
+   size, color and font. Without JS the plain list below is shown instead. */
+.rise-field {
+  position: relative;
+  height: 440px;
   overflow: hidden;
-  -webkit-mask-image: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.5) 12%, #000 30%, #000 70%, rgba(0, 0, 0, 0.5) 88%, transparent 100%);
-  mask-image: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.5) 12%, #000 30%, #000 70%, rgba(0, 0, 0, 0.5) 88%, transparent 100%);
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 14%, #000 86%, transparent 100%);
+  mask-image: linear-gradient(180deg, transparent 0%, #000 14%, #000 86%, transparent 100%);
 }
 
-.rise-col {
-  list-style: none;
-  animation: riseUp var(--ms, 64000ms) linear infinite;
-  will-change: transform;
-}
-
-/* every word has its own size, indent and phase, and drifts a few pixels side to side while it breathes,
-   so the stream feels loose and soft instead of a rigid list */
-.rise-col li {
-  padding: 11px 0;
-  translate: var(--x, 0) 0;
-  font-family: var(--font-heading);
-  font-size: calc(2.1rem * var(--s, 1));
-  font-weight: 600;
-  line-height: 1.25;
-  letter-spacing: -0.02em;
+.rise-word {
+  position: absolute;
+  top: 0;
+  left: 0;
   white-space: nowrap;
+  line-height: 1.2;
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+.rise-static {
+  display: none;
+  font-family: var(--font-heading);
+  font-size: 1.6rem;
+  font-weight: 700;
+  line-height: 1.8;
   color: var(--color-forest);
-  animation: drift 11s ease-in-out infinite;
-  animation-delay: calc(var(--k, 0) * -1.9s);
 }
 
-.rise-col li:nth-child(3n + 2) {
-  color: var(--color-amber);
+html:not(.js) .rise-field {
+  display: none;
 }
 
-.rise-col li[lang="ar"] {
-  font-size: calc(1.7rem * var(--s, 1));
-  letter-spacing: 0;
-}
-
-.rise-col li[lang="ur"],
-.rise-col li[lang="hi"],
-.rise-col li[lang="ko"],
-.rise-col li[lang="zh-CN"] {
-  letter-spacing: 0;
-}
-
-@keyframes drift {
-  0%, 100% { transform: translateX(-5px); opacity: 0.78; }
-  50% { transform: translateX(9px); opacity: 1; }
-}
-
-/* the list is rendered twice, so moving it up by half its height loops without a jump */
-@keyframes riseUp {
-  from { transform: translateY(0); }
-  to { transform: translateY(-50%); }
+html:not(.js) .rise-static {
+  display: block;
 }
 
 /* John 3:16 in many languages (cycles forever; see initVerses in js/home.js) */
@@ -862,22 +840,8 @@ html.hero-go .hero-anim {
     padding: 64px 0;
   }
 
-  .rise-window {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0 20px;
-    height: 320px;
-  }
-
-  .rise-col:nth-child(3) {
-    display: none;
-  }
-
-  .rise-col li {
-    font-size: calc(1.6rem * var(--s, 1));
-  }
-
-  .rise-col li[lang="ar"] {
-    font-size: calc(1.3rem * var(--s, 1));
+  .rise-field {
+    height: 340px;
   }
 
   .block {
