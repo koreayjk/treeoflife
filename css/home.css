@@ -171,18 +171,21 @@ html.intro-on .intro-loader {
   color: var(--color-amber);
 }
 
-/* ---------- Hero: copy on paper, photo and numbers on a full-bleed maroon panel ---------- */
+/* ---------- Hero (B layout): copy left, tilted dissolving photo right, photo overlapping the maroon band ---------- */
 .hero {
-  --edge: max(32px, calc((100vw - 1240px) / 2 + 32px));
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  min-height: min(calc(100svh - 56px), 880px);
   background: var(--color-sand-bg);
+  padding-top: 72px;
+}
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 64px;
+  align-items: start;
 }
 
 .hero-copy {
-  align-self: center;
-  padding: 72px 56px 72px var(--edge);
+  padding-bottom: 40px;
 }
 
 .hero-title {
@@ -196,7 +199,8 @@ html.intro-on .intro-loader {
 }
 
 .hero-title em,
-.block h2 em {
+.block h2 em,
+.langs h2 em {
   font-family: var(--font-serif-accent);
   font-style: italic;
   font-weight: 500;
@@ -226,88 +230,60 @@ html.intro-on .intro-loader {
   color: var(--color-text-muted);
 }
 
-.hero-panel {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 36px;
-  padding: 56px var(--edge) 56px 56px;
+/* the photo starts level with the headline and hangs ~48px into the band below; `rotate` is separate from `transform` so the entrance fade still works */
+.hero-photo {
+  position: relative;
+  z-index: 2;
+  justify-self: end;
+  width: min(100%, 500px);
+  margin: 0 0 -48px;
+  rotate: 2deg;
+}
+
+.hero-slides {
+  position: relative;
+  aspect-ratio: 3 / 4;
+  border: 7px solid var(--color-sand-bg);
+  background: var(--color-sand-surface);
+  box-shadow: 0 18px 40px rgba(30, 26, 23, 0.22);
+  overflow: hidden;
+}
+
+/* gallery photos dissolve into each other (see initHeroSlides in js/home.js) */
+.slide {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: var(--pos, 50% 40%);
+  opacity: 0;
+  transition: opacity 1.8s ease;
+}
+
+.slide.is-active {
+  opacity: 1;
+}
+
+.hero-band {
+  position: relative;
+  z-index: 1;
+  min-height: 300px;
+  padding: 72px 0;
   color: var(--color-sand-bg);
   background: var(--color-forest);
-}
-
-/* ---------- "Bible" in many languages, rising forever (pure CSS; three columns at different speeds) ---------- */
-.rise-kicker {
-  font-family: var(--font-heading);
-  font-size: 0.8rem;
-  font-weight: 700;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: #D9B9AE;
-}
-
-.rise-window {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 0 28px;
-  height: 260px;
-  margin-top: 14px;
-  overflow: hidden;
-  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 24%, #000 76%, transparent 100%);
-  mask-image: linear-gradient(180deg, transparent 0%, #000 24%, #000 76%, transparent 100%);
-}
-
-.rise-col {
-  list-style: none;
-  animation: riseUp var(--ms, 48000ms) linear infinite;
-  will-change: transform;
-}
-
-.rise-col li {
-  padding: 7px 0;
-  font-family: var(--font-heading);
-  font-size: 1.75rem;
-  font-weight: 700;
-  line-height: 1.25;
-  letter-spacing: -0.02em;
-  white-space: nowrap;
-  color: var(--color-sand-bg);
-}
-
-.rise-col li:nth-child(3n + 2) {
-  color: #D9B9AE;
-}
-
-.rise-col li[lang="ar"] {
-  font-size: 1.45rem;
-  letter-spacing: 0;
-}
-
-.rise-col li[lang="ur"],
-.rise-col li[lang="hi"],
-.rise-col li[lang="ko"],
-.rise-col li[lang="zh-CN"] {
-  letter-spacing: 0;
-}
-
-/* the list is rendered twice, so moving it up by half its height loops without a jump */
-@keyframes riseUp {
-  from { transform: translateY(0); }
-  to { transform: translateY(-50%); }
 }
 
 .hero-stats {
   display: flex;
   flex-wrap: wrap;
-  gap: 18px 64px;
-  padding-top: 28px;
-  border-top: 1px solid rgba(243, 236, 224, 0.3);
+  gap: 18px 72px;
 }
 
 .hero-stats strong {
   display: block;
   font-family: var(--font-heading);
-  font-size: clamp(2.4rem, 4.4vw, 3.8rem);
+  font-size: clamp(2.6rem, 5vw, 4.2rem);
   font-weight: 800;
   line-height: 1.05;
   letter-spacing: -0.04em;
@@ -326,10 +302,83 @@ html.intro-on .intro-loader {
   color: #D9B9AE;
 }
 
-/* ---------- John 3:16 in many languages (cycles forever; see initVerses in js/home.js) ---------- */
+/* ---------- Languages strip: John 3:16 cycling + "Bible" rising forever ---------- */
+.langs {
+  padding: 120px 0;
+  background: var(--color-sand-surface);
+}
+
+.langs-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 72px;
+  align-items: center;
+}
+
+.langs h2 {
+  margin-top: 20px;
+  font-family: var(--font-heading);
+  font-size: clamp(2.2rem, 4.2vw, 3.6rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  color: var(--color-forest);
+}
+
+.rise-window {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0 28px;
+  height: 380px;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 22%, #000 78%, transparent 100%);
+  mask-image: linear-gradient(180deg, transparent 0%, #000 22%, #000 78%, transparent 100%);
+}
+
+.rise-col {
+  list-style: none;
+  animation: riseUp var(--ms, 48000ms) linear infinite;
+  will-change: transform;
+}
+
+.rise-col li {
+  padding: 9px 0;
+  font-family: var(--font-heading);
+  font-size: 2.1rem;
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+  color: var(--color-forest);
+}
+
+.rise-col li:nth-child(3n + 2) {
+  color: var(--color-amber);
+}
+
+.rise-col li[lang="ar"] {
+  font-size: 1.7rem;
+  letter-spacing: 0;
+}
+
+.rise-col li[lang="ur"],
+.rise-col li[lang="hi"],
+.rise-col li[lang="ko"],
+.rise-col li[lang="zh-CN"] {
+  letter-spacing: 0;
+}
+
+/* the list is rendered twice, so moving it up by half its height loops without a jump */
+@keyframes riseUp {
+  from { transform: translateY(0); }
+  to { transform: translateY(-50%); }
+}
+
+/* John 3:16 in many languages (cycles forever; see initVerses in js/home.js) */
 .verse {
-  padding-top: 22px;
-  border-top: 1px solid rgba(243, 236, 224, 0.3);
+  margin-top: 36px;
+  padding-top: 24px;
+  border-top: 2px solid var(--color-forest);
 }
 
 .verse-label {
@@ -342,15 +391,15 @@ html.intro-on .intro-loader {
   font-weight: 700;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: #D9B9AE;
+  color: var(--color-amber);
 }
 
 .verse-label b {
   font-weight: 700;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.04em;
   text-transform: none;
   font-size: 1rem;
-  color: var(--color-gold);
+  color: var(--color-forest);
   transition: opacity 0.5s ease;
 }
 
@@ -363,9 +412,9 @@ html.intro-on .intro-loader {
   grid-area: 1 / 1;
   align-self: start;
   font-family: var(--font-pretendard);
-  font-size: 1.28rem;
+  font-size: 1.32rem;
   line-height: 1.55;
-  color: var(--color-sand-bg);
+  color: var(--color-text-main);
   opacity: 0;
   transform: translateY(10px);
   transition: opacity 0.9s ease, transform 0.9s var(--ease-smooth);
@@ -380,7 +429,7 @@ html.intro-on .intro-loader {
 
 .verse-item[lang="ar"],
 .verse-item[lang="ur"] {
-  font-size: 1.36rem;
+  font-size: 1.4rem;
   line-height: 1.8;
 }
 
@@ -394,16 +443,16 @@ html.intro-on .intro-loader {
 
 .verse-progress {
   height: 2px;
-  margin-top: 16px;
+  margin-top: 18px;
   overflow: hidden;
-  background: rgba(243, 236, 224, 0.2);
+  background: rgba(98, 42, 45, 0.16);
 }
 
 .verse-progress span {
   display: block;
   width: 100%;
   height: 100%;
-  background: var(--color-gold);
+  background: var(--color-forest);
   transform-origin: left;
   transform: scaleX(0);
 }
@@ -708,15 +757,35 @@ html.hero-go .hero-anim {
 /* ---------- Responsive ---------- */
 @media (max-width: 1024px) {
   .hero {
+    padding-top: 48px;
+  }
+
+  .hero-grid {
     grid-template-columns: 1fr;
+    gap: 40px;
   }
 
   .hero-copy {
-    padding: 56px var(--edge) 48px;
+    padding-bottom: 0;
   }
 
-  .hero-panel {
-    padding: 48px var(--edge);
+  .hero-photo {
+    justify-self: center;
+    width: min(100%, 420px);
+    margin-bottom: -150px;
+  }
+
+  .hero-band {
+    padding: 190px 0 56px;
+  }
+
+  .langs-grid {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+
+  .langs {
+    padding: 88px 0;
   }
 
   .event-link {
@@ -745,27 +814,8 @@ html.hero-go .hero-anim {
 }
 
 @media (max-width: 767px) {
-  .rise-window {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0 20px;
-    height: 220px;
-  }
-
-  .rise-col:nth-child(3) {
-    display: none;
-  }
-
-  .rise-col li {
-    font-size: 1.45rem;
-  }
-
-  .rise-col li[lang="ar"] {
-    font-size: 1.2rem;
-  }
-
-  .hero-copy {
-    padding-top: 36px;
-    padding-bottom: 36px;
+  .hero {
+    padding-top: 32px;
   }
 
   .hero-lead {
@@ -778,15 +828,40 @@ html.hero-go .hero-anim {
     min-height: 52px;
   }
 
-  .hero-panel {
-    gap: 28px;
-    padding-top: 36px;
-    padding-bottom: 40px;
+  .hero-photo {
+    width: min(86%, 360px);
+    margin-bottom: -110px;
+  }
+
+  .hero-band {
+    min-height: 0;
+    padding: 150px 0 44px;
   }
 
   .hero-stats {
     gap: 14px 40px;
-    padding-top: 22px;
+  }
+
+  .langs {
+    padding: 64px 0;
+  }
+
+  .rise-window {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0 20px;
+    height: 300px;
+  }
+
+  .rise-col:nth-child(3) {
+    display: none;
+  }
+
+  .rise-col li {
+    font-size: 1.6rem;
+  }
+
+  .rise-col li[lang="ar"] {
+    font-size: 1.3rem;
   }
 
   .block {

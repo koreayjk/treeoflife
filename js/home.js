@@ -184,7 +184,6 @@
     var items = stage.querySelectorAll('.verse-item');
     var label = document.getElementById('verseLang');
     var bar = document.querySelector('.verse-progress');
-    var panel = document.querySelector('.hero-panel');
     if (items.length < 2) return;
 
     var DURATION = 5200;
@@ -228,7 +227,7 @@
     items.forEach(function (it, i) { if (i !== 0) it.setAttribute('aria-hidden', 'true'); });
 
     // pause while the pointer is over the panel so a verse can be read in peace
-    var hoverTarget = panel || stage;
+    var hoverTarget = document.querySelector('.langs') || stage;
     hoverTarget.addEventListener('mouseenter', function () {
       paused = true;
       clearTimeout(timer);
@@ -255,10 +254,66 @@
     begin();
   }
 
+  /* Hero photo: gallery photos dissolve into one another every 10 seconds. Only the next photo is
+     fetched (just before it is needed) so the page does not download all twelve at once. */
+  function initHeroSlides() {
+    var slides = document.querySelectorAll('.hero-slides .slide');
+    if (slides.length < 2) return;
+
+    var INTERVAL = 10000;
+    var current = 0;
+
+    function load(el) {
+      var src = el.getAttribute('data-src');
+      if (src) {
+        el.src = src;
+        el.removeAttribute('data-src');
+      }
+    }
+
+    function swapTo(next) {
+      slides[current].classList.remove('is-active');
+      slides[next].classList.add('is-active');
+      current = next;
+    }
+
+    function advance() {
+      var next = (current + 1) % slides.length;
+      var img = slides[next];
+      load(img);
+      if (img.complete && img.naturalWidth) {
+        swapTo(next);
+      } else {
+        var done = function () { swapTo(next); };
+        img.addEventListener('load', done, { once: true });
+        img.addEventListener('error', done, { once: true });
+      }
+      load(slides[(next + 1) % slides.length]); // warm up the one after
+    }
+
+    function start() {
+      load(slides[1]);
+      setInterval(advance, INTERVAL);
+    }
+
+    if (html.classList.contains('hero-go')) {
+      start();
+      return;
+    }
+    var observer = new MutationObserver(function () {
+      if (html.classList.contains('hero-go')) {
+        observer.disconnect();
+        start();
+      }
+    });
+    observer.observe(html, { attributes: true, attributeFilter: ['class'] });
+  }
+
   initIntro();
   document.addEventListener('DOMContentLoaded', function () {
     initSchedule();
     initCounters();
     initVerses();
+    initHeroSlides();
   });
 })();
