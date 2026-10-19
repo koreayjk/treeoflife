@@ -33,7 +33,7 @@
       }, 900);
     }
 
-    var heroImg = document.querySelector('.home-hero-media img');
+    var heroImg = document.querySelector('.home-hero-media img'); // legacy hook: absent now, resolves at once
     var imageReady = new Promise(function (resolve) {
       if (!heroImg || heroImg.complete) return resolve();
       heroImg.addEventListener('load', resolve);
@@ -182,8 +182,10 @@
     var stage = document.querySelector('.verse-stage');
     if (!stage) return;
     var items = stage.querySelectorAll('.verse-item');
+    var words = document.querySelectorAll('.word-item');
     var label = document.getElementById('verseLang');
     var bar = document.querySelector('.verse-progress');
+    var panel = document.querySelector('.hero-panel');
     if (items.length < 2) return;
 
     var DURATION = 5200;
@@ -198,13 +200,30 @@
       if (!paused) bar.classList.add('is-running');
     }
 
+    function rise(prev, next) {
+      // the old word slides up and out, the next one rises in from below
+      if (!prev || prev === next) return;
+      prev.classList.remove('is-active');
+      prev.classList.add('is-leaving');
+      next.classList.add('is-active');
+      setTimeout(function () {
+        prev.classList.add('no-anim');
+        prev.classList.remove('is-leaving');
+        void prev.offsetWidth;
+        prev.classList.remove('no-anim');
+      }, 1100);
+    }
+
     function show(next) {
-      items[index].classList.remove('is-active');
-      items[index].setAttribute('aria-hidden', 'true');
+      var prevIndex = index;
+      items[prevIndex].classList.remove('is-active');
+      items[prevIndex].setAttribute('aria-hidden', 'true');
       index = next;
       var item = items[index];
       item.classList.add('is-active');
       item.removeAttribute('aria-hidden');
+      if (words.length === items.length) rise(words[prevIndex], words[index]);
+
       var native = item.getAttribute('data-native');
       var english = item.getAttribute('data-english');
       label.style.opacity = 0;
@@ -225,12 +244,14 @@
 
     items.forEach(function (it, i) { if (i !== 0) it.setAttribute('aria-hidden', 'true'); });
 
-    stage.addEventListener('mouseenter', function () {
+    // pause while the pointer is over the panel so a verse can be read in peace
+    var hoverTarget = panel || stage;
+    hoverTarget.addEventListener('mouseenter', function () {
       paused = true;
       clearTimeout(timer);
       bar.classList.remove('is-running');
     });
-    stage.addEventListener('mouseleave', function () {
+    hoverTarget.addEventListener('mouseleave', function () {
       paused = false;
       schedule();
     });
