@@ -403,7 +403,8 @@
       var best = null;
       for (var tries = 0; tries < 14 && !best; tries++) {
         var x = rand(-w * 0.15, fw - w * 0.85);
-        var y = rand(fh * 0.3, fh - h * 0.6);
+        // new words always rise in from the bottom edge; only the words present at load are scattered mid-field
+        var y = prefill ? rand(fh * 0.3, fh - h * 0.6) : fh - h * rand(0.1, 0.6);
         var cand = { x: x, y: y, w: w, h: h };
         var ok = true;
         for (var i = 0; i < alive.length; i++) {
