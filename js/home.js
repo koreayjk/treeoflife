@@ -176,9 +176,85 @@
     observer.observe(html, { attributes: true, attributeFilter: ['class'] });
   }
 
+  /* John 3:16 cycles through the languages forever. Every verse is in the HTML (stacked in one grid cell), so
+     the box never changes height; we just move the `is-active` class. Pauses while the pointer is over it. */
+  function initVerses() {
+    var stage = document.querySelector('.verse-stage');
+    if (!stage) return;
+    var items = stage.querySelectorAll('.verse-item');
+    var label = document.getElementById('verseLang');
+    var bar = document.querySelector('.verse-progress');
+    if (items.length < 2) return;
+
+    var DURATION = 5200;
+    var index = 0;
+    var timer = null;
+    var paused = false;
+    bar.style.setProperty('--verse-ms', DURATION + 'ms');
+
+    function restartBar() {
+      bar.classList.remove('is-running');
+      void bar.offsetWidth; // restart the CSS animation
+      if (!paused) bar.classList.add('is-running');
+    }
+
+    function show(next) {
+      items[index].classList.remove('is-active');
+      items[index].setAttribute('aria-hidden', 'true');
+      index = next;
+      var item = items[index];
+      item.classList.add('is-active');
+      item.removeAttribute('aria-hidden');
+      var native = item.getAttribute('data-native');
+      var english = item.getAttribute('data-english');
+      label.style.opacity = 0;
+      setTimeout(function () {
+        label.textContent = native === english ? english : native + ' \u00B7 ' + english;
+        label.style.opacity = 1;
+      }, 350);
+    }
+
+    function schedule() {
+      clearTimeout(timer);
+      restartBar();
+      timer = setTimeout(function () {
+        show((index + 1) % items.length);
+        schedule();
+      }, DURATION);
+    }
+
+    items.forEach(function (it, i) { if (i !== 0) it.setAttribute('aria-hidden', 'true'); });
+
+    stage.addEventListener('mouseenter', function () {
+      paused = true;
+      clearTimeout(timer);
+      bar.classList.remove('is-running');
+    });
+    stage.addEventListener('mouseleave', function () {
+      paused = false;
+      schedule();
+    });
+
+    function begin() {
+      if (html.classList.contains('hero-go')) {
+        setTimeout(schedule, 900);
+        return;
+      }
+      var observer = new MutationObserver(function () {
+        if (html.classList.contains('hero-go')) {
+          observer.disconnect();
+          setTimeout(schedule, 900);
+        }
+      });
+      observer.observe(html, { attributes: true, attributeFilter: ['class'] });
+    }
+    begin();
+  }
+
   initIntro();
   document.addEventListener('DOMContentLoaded', function () {
     initSchedule();
     initCounters();
+    initVerses();
   });
 })();

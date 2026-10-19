@@ -230,8 +230,8 @@ html.intro-on .intro-loader {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 40px;
-  padding: 56px var(--edge) 56px 56px;
+  gap: 26px;
+  padding: 44px var(--edge) 44px 56px;
   color: var(--color-sand-bg);
   background: var(--color-forest);
 }
@@ -239,7 +239,7 @@ html.intro-on .intro-loader {
 .hero-photo img {
   display: block;
   width: 100%;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 16 / 9;
   object-fit: cover;
   object-position: 60% 40%;
   background: var(--color-forest-dark);
@@ -280,6 +280,97 @@ html.intro-on .intro-loader {
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: #D9B9AE;
+}
+
+/* ---------- John 3:16 in many languages (cycles forever; see initVerses in js/home.js) ---------- */
+.verse {
+  padding-top: 22px;
+  border-top: 1px solid rgba(243, 236, 224, 0.3);
+}
+
+.verse-label {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 14px;
+  font-family: var(--font-heading);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #D9B9AE;
+}
+
+.verse-label b {
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: none;
+  font-size: 1rem;
+  color: var(--color-gold);
+  transition: opacity 0.5s ease;
+}
+
+.verse-stage {
+  display: grid;
+  margin-top: 12px;
+}
+
+.verse-item {
+  grid-area: 1 / 1;
+  align-self: start;
+  font-family: var(--font-pretendard);
+  font-size: 1.28rem;
+  line-height: 1.55;
+  color: var(--color-sand-bg);
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.9s ease, transform 0.9s var(--ease-smooth);
+  pointer-events: none;
+}
+
+.verse-item.is-active {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+
+.verse-item[lang="ar"],
+.verse-item[lang="ur"] {
+  font-size: 1.36rem;
+  line-height: 1.8;
+}
+
+.verse-item[lang="ko"] {
+  word-break: keep-all;
+}
+
+.verse-item[lang="hi"] {
+  line-height: 1.7;
+}
+
+.verse-progress {
+  height: 2px;
+  margin-top: 16px;
+  overflow: hidden;
+  background: rgba(243, 236, 224, 0.2);
+}
+
+.verse-progress span {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: var(--color-gold);
+  transform-origin: left;
+  transform: scaleX(0);
+}
+
+.verse-progress.is-running span {
+  animation: verseProgress var(--verse-ms, 5200ms) linear forwards;
+}
+
+@keyframes verseProgress {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
 }
 
 /* Hero entrance: one soft fade-up per element, in order. */
