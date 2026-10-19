@@ -6,6 +6,7 @@
 
 document.addEventListener('DOMContentLoaded', () => {
   initNavigation();
+  initHeaderHeight();
   initAppleMobileBottomBar();
   initDonationCalculator();
   initForms();
@@ -444,3 +445,15 @@ window.tolObserveReveal = function (root) {
 
 // app.js is loaded at the end of <body>, so the DOM is parsed: tag and observe right away to avoid a flash.
 initScrollReveal();
+
+
+/* Keep --header-h equal to the real header height (it changes with screen size and font loading). */
+function initHeaderHeight() {
+  const header = document.querySelector('.site-header');
+  if (!header) return;
+  const sync = () => document.documentElement.style.setProperty('--header-h', header.offsetHeight + 'px');
+  sync();
+  window.addEventListener('resize', sync);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(sync);
+  if ('ResizeObserver' in window) new ResizeObserver(sync).observe(header);
+}

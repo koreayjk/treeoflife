@@ -329,27 +329,32 @@ html.intro-on .intro-loader {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 0 28px;
-  height: 380px;
+  height: 400px;
   overflow: hidden;
-  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 22%, #000 78%, transparent 100%);
-  mask-image: linear-gradient(180deg, transparent 0%, #000 22%, #000 78%, transparent 100%);
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.5) 12%, #000 30%, #000 70%, rgba(0, 0, 0, 0.5) 88%, transparent 100%);
+  mask-image: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.5) 12%, #000 30%, #000 70%, rgba(0, 0, 0, 0.5) 88%, transparent 100%);
 }
 
 .rise-col {
   list-style: none;
-  animation: riseUp var(--ms, 48000ms) linear infinite;
+  animation: riseUp var(--ms, 64000ms) linear infinite;
   will-change: transform;
 }
 
+/* every word has its own size, indent and phase, and drifts a few pixels side to side while it breathes,
+   so the stream feels loose and soft instead of a rigid list */
 .rise-col li {
-  padding: 9px 0;
+  padding: 11px 0;
+  translate: var(--x, 0) 0;
   font-family: var(--font-heading);
-  font-size: 2.1rem;
-  font-weight: 700;
+  font-size: calc(2.1rem * var(--s, 1));
+  font-weight: 600;
   line-height: 1.25;
   letter-spacing: -0.02em;
   white-space: nowrap;
   color: var(--color-forest);
+  animation: drift 11s ease-in-out infinite;
+  animation-delay: calc(var(--k, 0) * -1.9s);
 }
 
 .rise-col li:nth-child(3n + 2) {
@@ -357,7 +362,7 @@ html.intro-on .intro-loader {
 }
 
 .rise-col li[lang="ar"] {
-  font-size: 1.7rem;
+  font-size: calc(1.7rem * var(--s, 1));
   letter-spacing: 0;
 }
 
@@ -366,6 +371,11 @@ html.intro-on .intro-loader {
 .rise-col li[lang="ko"],
 .rise-col li[lang="zh-CN"] {
   letter-spacing: 0;
+}
+
+@keyframes drift {
+  0%, 100% { transform: translateX(-5px); opacity: 0.78; }
+  50% { transform: translateX(9px); opacity: 1; }
 }
 
 /* the list is rendered twice, so moving it up by half its height loops without a jump */
@@ -394,6 +404,11 @@ html.intro-on .intro-loader {
   color: var(--color-amber);
 }
 
+.verse-label span,
+.verse-label b {
+  transition: opacity 0.5s ease;
+}
+
 .verse-label b {
   font-weight: 700;
   letter-spacing: 0.04em;
@@ -404,6 +419,7 @@ html.intro-on .intro-loader {
 }
 
 .verse-stage {
+  position: relative;
   display: grid;
   margin-top: 12px;
 }
@@ -849,7 +865,7 @@ html.hero-go .hero-anim {
   .rise-window {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 0 20px;
-    height: 300px;
+    height: 320px;
   }
 
   .rise-col:nth-child(3) {
@@ -857,11 +873,11 @@ html.hero-go .hero-anim {
   }
 
   .rise-col li {
-    font-size: 1.6rem;
+    font-size: calc(1.6rem * var(--s, 1));
   }
 
   .rise-col li[lang="ar"] {
-    font-size: 1.3rem;
+    font-size: calc(1.3rem * var(--s, 1));
   }
 
   .block {

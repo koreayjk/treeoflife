@@ -176,82 +176,145 @@
     observer.observe(html, { attributes: true, attributeFilter: ['class'] });
   }
 
-  /* John 3:16 cycles through the languages forever. Every verse is in the HTML (stacked in one grid cell), so
-     the box never changes height; we just move the `is-active` class. Pauses while the pointer is over it. */
+  /* Scripture in many languages. Every few seconds a random (verse, language) pair fades in; the same verse or the
+     same language never shows twice in a row, and the pace never changes (it does not pause on hover). Two layers
+     cross-fade, and the box is sized to the tallest text so the page below never jumps. Data: js/verses.js */
   function initVerses() {
-    var stage = document.querySelector('.verse-stage');
-    if (!stage) return;
-    var items = stage.querySelectorAll('.verse-item');
-    var label = document.getElementById('verseLang');
+    var stage = document.getElementById('verseStage');
+    var verses = window.TOL_VERSES;
+    var langs = window.TOL_VERSE_LANGS;
+    if (!stage || !verses || !langs) return;
+    var refEl = document.getElementById('verseRef');
+    var langEl = document.getElementById('verseLang');
     var bar = document.querySelector('.verse-progress');
-    if (items.length < 2) return;
 
-    var DURATION = 5200;
-    var index = 0;
-    var timer = null;
-    var paused = false;
-    bar.style.setProperty('--verse-ms', DURATION + 'ms');
+    var DURATION = 6500;
+    var langByCode = {};
+    langs.forEach(function (l) { langByCode[l.code] = l; });
+
+    var pairs = [];
+    verses.forEach(function (v, vi) {
+      langs.forEach(function (l) {
+        if (v.t[l.code]) pairs.push({ v: vi, code: l.code });
+      });
+    });
+
+    function shuffle(list) {
+      for (var i = list.length - 1; i > 0; i--) {
+        var k = Math.floor(Math.random() * (i + 1));
+        var tmp = list[i]; list[i] = list[k]; list[k] = tmp;
+      }
+      return list;
+    }
+
+    // a shuffled order where neighbours differ in both verse and language
+    function makeQueue(prev) {
+      var q = shuffle(pairs.slice());
+      for (var i = 0; i < q.length; i++) {
+        var before = i === 0 ? prev : q[i - 1];
+        if (!before) continue;
+        if (q[i].v === before.v || q[i].code === before.code) {
+          for (var k = i + 1; k < q.length; k++) {
+            if (q[k].v !== before.v && q[k].code !== before.code) {
+              var t = q[i]; q[i] = q[k]; q[k] = t;
+              break;
+            }
+          }
+        }
+      }
+      return q;
+    }
+
+    // layer A is the static English John 3:16 from the HTML; layer B is created here
+    var layerA = stage.querySelector('.verse-item');
+    var layerB = layerA.cloneNode(false);
+    layerB.classList.remove('is-active');
+    layerB.setAttribute('aria-hidden', 'true');
+    stage.appendChild(layerB);
+    var front = layerA, back = layerB;
+
+    function fill(layer, pair) {
+      var l = langByCode[pair.code];
+      layer.textContent = verses[pair.v].t[pair.code];
+      layer.setAttribute('lang', l.code);
+      layer.setAttribute('dir', l.dir);
+    }
+
+    // reserve the height of the tallest text at the current width
+    function reserveHeight() {
+      var probe = document.createElement('div');
+      probe.className = 'verse-item';
+      probe.style.cssText = 'position:absolute;left:0;right:0;top:0;visibility:hidden;opacity:1;transform:none;pointer-events:none';
+      stage.appendChild(probe);
+      var max = 0;
+      pairs.forEach(function (pr) {
+        fill(probe, pr);
+        if (probe.offsetHeight > max) max = probe.offsetHeight;
+      });
+      stage.removeChild(probe);
+      stage.style.minHeight = max + 'px';
+    }
+
+    var current = { v: 0, code: 'en' };
+    var queue = [];
 
     function restartBar() {
+      bar.style.setProperty('--verse-ms', DURATION + 'ms');
       bar.classList.remove('is-running');
       void bar.offsetWidth; // restart the CSS animation
-      if (!paused) bar.classList.add('is-running');
+      bar.classList.add('is-running');
     }
 
-    function show(next) {
-      var prevIndex = index;
-      items[prevIndex].classList.remove('is-active');
-      items[prevIndex].setAttribute('aria-hidden', 'true');
-      index = next;
-      var item = items[index];
-      item.classList.add('is-active');
-      item.removeAttribute('aria-hidden');
-      var native = item.getAttribute('data-native');
-      var english = item.getAttribute('data-english');
-      label.style.opacity = 0;
+    function next() {
+      if (!queue.length) queue = makeQueue(current);
+      var pair = queue.shift();
+      current = pair;
+
+      fill(back, pair);
+      back.removeAttribute('aria-hidden');
+      back.classList.add('is-active');
+      front.classList.remove('is-active');
+      front.setAttribute('aria-hidden', 'true');
+      var tmp = front; front = back; back = tmp;
+
+      var l = langByCode[pair.code];
+      refEl.style.opacity = 0;
+      langEl.style.opacity = 0;
       setTimeout(function () {
-        label.textContent = native === english ? english : native + ' \u00B7 ' + english;
-        label.style.opacity = 1;
+        refEl.textContent = verses[pair.v].ref;
+        langEl.textContent = l.native === l.english ? l.english : l.native + ' \u00B7 ' + l.english;
+        refEl.style.opacity = 1;
+        langEl.style.opacity = 1;
       }, 350);
-    }
-
-    function schedule() {
-      clearTimeout(timer);
       restartBar();
-      timer = setTimeout(function () {
-        show((index + 1) % items.length);
-        schedule();
-      }, DURATION);
     }
-
-    items.forEach(function (it, i) { if (i !== 0) it.setAttribute('aria-hidden', 'true'); });
-
-    // pause while the pointer is over the panel so a verse can be read in peace
-    var hoverTarget = document.querySelector('.langs') || stage;
-    hoverTarget.addEventListener('mouseenter', function () {
-      paused = true;
-      clearTimeout(timer);
-      bar.classList.remove('is-running');
-    });
-    hoverTarget.addEventListener('mouseleave', function () {
-      paused = false;
-      schedule();
-    });
 
     function begin() {
+      reserveHeight();
+      restartBar();
+      setInterval(next, DURATION);
+      var timer;
+      window.addEventListener('resize', function () {
+        clearTimeout(timer);
+        timer = setTimeout(reserveHeight, 200);
+      });
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(reserveHeight);
+    }
+
+    function whenHeroIsUp(fn) {
       if (html.classList.contains('hero-go')) {
-        setTimeout(schedule, 900);
+        setTimeout(fn, 900);
         return;
       }
       var observer = new MutationObserver(function () {
         if (html.classList.contains('hero-go')) {
           observer.disconnect();
-          setTimeout(schedule, 900);
+          setTimeout(fn, 900);
         }
       });
       observer.observe(html, { attributes: true, attributeFilter: ['class'] });
     }
-    begin();
+    whenHeroIsUp(begin);
   }
 
   /* Hero photo: gallery photos dissolve into one another every 10 seconds. Only the next photo is

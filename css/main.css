@@ -4458,3 +4458,35 @@ body {
   letter-spacing: 0.14em;
   color: var(--color-amber);
 }
+
+/* ==========================================================================
+   Header stays on screen at every scroll position and screen size. `fixed` (not `sticky`) because sticky
+   stops working in some browsers when an ancestor has overflow rules. The body is padded by the header height,
+   which js/app.js measures into --header-h.
+   ========================================================================== */
+:root {
+  --header-h: 56px;
+}
+
+@media (max-width: 767px) {
+  :root {
+    --header-h: 60px;
+  }
+}
+
+html {
+  scroll-padding-top: calc(var(--header-h) + 12px);
+}
+
+body {
+  padding-top: var(--header-h);
+}
+
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  z-index: 3000;
+}
