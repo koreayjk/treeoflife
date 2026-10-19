@@ -1,0 +1,879 @@
+/* ==========================================================================
+   Inner pages, brand v2: same system as the home page (css/home.css is loaded first for
+   .label, .btn-give, .btn-line, .text-link, .block*, .block-maroon).
+   Page header = big Bricolage type on paper, italic Fraunces accent word, hairline rule.
+   ========================================================================== */
+
+/* ---------- Page header (replaces the old centered gradient hero) ---------- */
+.page-hero {
+  padding: 88px 0 64px;
+  text-align: left;
+  background: var(--color-sand-bg);
+  border-bottom: 1px solid var(--color-sand-border);
+}
+
+.page-hero .container,
+.page-hero .container-narrow {
+  max-width: 1160px;
+  text-align: left;
+}
+
+.page-hero .section-tag {
+  display: block;
+  margin: 0;
+  padding: 0;
+  background: none;
+  border: 0;
+  font-family: var(--font-heading);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-amber);
+}
+
+.page-hero-title {
+  max-width: 14ch;
+  margin: 20px 0 0;
+  font-family: var(--font-heading);
+  font-size: clamp(2.8rem, 6.4vw, 5.4rem);
+  font-weight: 800;
+  line-height: 0.96;
+  letter-spacing: -0.045em;
+  color: var(--color-forest);
+}
+
+.page-hero-title em {
+  font-family: var(--font-serif-accent);
+  font-style: italic;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  color: var(--color-amber);
+}
+
+.page-hero-desc {
+  max-width: 600px;
+  margin: 26px 0 0;
+  font-size: 1.18rem;
+  line-height: 1.7;
+  color: #3B332D;
+}
+
+/* long titles on the data-driven pages */
+.page-hero-title.is-wide {
+  max-width: 20ch;
+}
+
+/* ---------- Generic section rhythm ---------- */
+.pg-block {
+  padding: 96px 0;
+}
+
+.pg-block.sand {
+  background: var(--color-sand-surface);
+}
+
+.pg-head {
+  max-width: 720px;
+  margin-bottom: 52px;
+}
+
+.pg-head h2 {
+  margin-top: 18px;
+  font-family: var(--font-heading);
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  color: var(--color-forest);
+}
+
+.pg-head h2 em,
+.pg-title em {
+  font-family: var(--font-serif-accent);
+  font-style: italic;
+  font-weight: 500;
+  color: var(--color-amber);
+}
+
+.pg-head p {
+  margin-top: 20px;
+  font-size: 1.12rem;
+  line-height: 1.7;
+  color: #3B332D;
+}
+
+.ph-cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 32px;
+}
+
+/* ---------- Giving ---------- */
+.give-layout {
+  display: grid;
+  grid-template-columns: 1fr 480px;
+  gap: 72px;
+  align-items: start;
+}
+
+.give-story h2 {
+  margin-top: 18px;
+  font-family: var(--font-heading);
+  font-size: clamp(2rem, 4vw, 3.1rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  color: var(--color-forest);
+}
+
+.give-story h2 em {
+  font-family: var(--font-serif-accent);
+  font-style: italic;
+  font-weight: 500;
+  color: var(--color-amber);
+}
+
+.give-story > p {
+  margin-top: 22px;
+  font-size: 1.12rem;
+  line-height: 1.75;
+  color: #3B332D;
+}
+
+.give-list {
+  margin-top: 34px;
+  list-style: none;
+  border-top: 2px solid var(--color-forest);
+}
+
+.give-list li {
+  display: grid;
+  grid-template-columns: 56px 1fr;
+  gap: 8px;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--color-sand-border);
+}
+
+.give-list b {
+  font-family: var(--font-heading);
+  font-size: 0.85rem;
+  letter-spacing: 0.14em;
+  color: var(--color-amber);
+  padding-top: 4px;
+}
+
+.give-list strong {
+  display: block;
+  font-family: var(--font-heading);
+  font-size: 1.2rem;
+  letter-spacing: -0.02em;
+  color: var(--color-forest);
+}
+
+.give-list span {
+  display: block;
+  margin-top: 4px;
+  font-size: 1.02rem;
+  line-height: 1.6;
+  color: #3B332D;
+}
+
+.give-card {
+  position: sticky;
+  top: calc(var(--header-h) + 24px);
+  padding: 32px;
+  background: var(--color-card-bg);
+  border: 1px solid var(--color-sand-border);
+  border-top: 6px solid var(--color-forest);
+  border-radius: var(--radius-sm);
+}
+
+.give-card .giving-mode-toggle {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  padding: 0;
+  margin-bottom: 22px;
+  background: none;
+  border: 2px solid var(--color-forest);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+.give-card .giving-mode-btn {
+  padding: 13px 8px;
+  text-align: center;
+  font-family: var(--font-heading);
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--color-forest);
+  background: transparent;
+  border-radius: 0;
+  box-shadow: none;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.give-card .giving-mode-btn.active {
+  color: var(--color-sand-bg);
+  background: var(--color-forest);
+}
+
+.give-card .amount-buttons {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.give-card .amount-btn {
+  min-height: 54px;
+  font-family: var(--font-heading);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--color-forest);
+  background: #fff;
+  border: 1.5px solid var(--color-sand-border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
+}
+
+.give-card .amount-btn:hover {
+  border-color: var(--color-forest);
+}
+
+.give-card .amount-btn.active {
+  color: var(--color-sand-bg);
+  background: var(--color-forest);
+  border-color: var(--color-forest);
+}
+
+.give-card .amount-row {
+  display: flex;
+  justify-content: space-between;
+  margin: 24px 0 6px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--color-text-muted);
+}
+
+.give-card #sliderDisplayAmount {
+  color: var(--color-forest);
+  font-family: var(--font-heading);
+  font-size: 1.05rem;
+}
+
+.give-card input[type="range"] {
+  width: 100%;
+  accent-color: var(--color-forest);
+  cursor: pointer;
+}
+
+.give-card .form-group {
+  margin: 18px 0 0;
+}
+
+.give-card .impact-preview {
+  margin: 20px 0 8px;
+  padding: 16px 18px;
+  font-size: 1.04rem;
+  line-height: 1.6;
+  color: var(--color-forest);
+  background: var(--color-gold-light);
+  border-left: 4px solid var(--color-gold);
+  border-radius: 0;
+}
+
+.give-card .btn-give {
+  width: 100%;
+  margin-top: 18px;
+  min-height: 60px;
+  font-size: 1.1rem;
+}
+
+.give-card .give-note {
+  margin-top: 14px;
+  font-size: 0.88rem;
+  line-height: 1.55;
+  text-align: center;
+  color: var(--color-text-muted);
+}
+
+.give-card .give-note button {
+  padding: 0;
+  font: inherit;
+  color: var(--color-forest);
+  text-decoration: underline;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+.ways {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+}
+
+.ways article {
+  padding-top: 18px;
+  border-top: 2px solid var(--color-forest);
+}
+
+.ways h3 {
+  margin-top: 8px;
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--color-forest);
+}
+
+.ways p {
+  margin-top: 12px;
+  font-size: 1.05rem;
+  line-height: 1.65;
+  color: #3B332D;
+}
+
+.ways address {
+  margin-top: 12px;
+  font-style: normal;
+  font-size: 1.05rem;
+  line-height: 1.65;
+  color: #3B332D;
+}
+
+.faq {
+  max-width: 800px;
+  border-top: 2px solid var(--color-forest);
+}
+
+.faq details {
+  border-bottom: 1px solid var(--color-sand-border);
+}
+
+.faq summary {
+  position: relative;
+  padding: 22px 40px 22px 0;
+  font-family: var(--font-heading);
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--color-forest);
+  cursor: pointer;
+  list-style: none;
+}
+
+.faq summary::-webkit-details-marker {
+  display: none;
+}
+
+.faq summary::after {
+  content: "+";
+  position: absolute;
+  right: 4px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.6rem;
+  font-weight: 400;
+  color: var(--color-amber);
+}
+
+.faq details[open] summary::after {
+  content: "\2212";
+}
+
+.faq details p {
+  padding: 0 40px 24px 0;
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: #3B332D;
+}
+
+.notes-strip {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 28px;
+}
+
+.notes-strip h2 {
+  margin-top: 14px;
+  font-family: var(--font-heading);
+  font-size: clamp(1.7rem, 3vw, 2.4rem);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  color: var(--color-sand-bg);
+}
+
+.notes-strip p {
+  max-width: 480px;
+  margin-top: 10px;
+  color: rgba(243, 236, 224, 0.82);
+  line-height: 1.6;
+}
+
+.notes-form {
+  display: flex;
+  flex: 1 1 360px;
+  max-width: 480px;
+  gap: 10px;
+}
+
+.notes-form .form-input {
+  flex: 1;
+  min-width: 0;
+  min-height: 54px;
+  background: #fff;
+}
+
+.notes-form .btn {
+  min-height: 54px;
+  padding: 0 24px;
+  color: var(--color-forest);
+  background: var(--color-sand-bg);
+  border: 0;
+}
+
+/* ---------- About ---------- */
+.statement {
+  max-width: 980px;
+  font-family: var(--font-heading);
+  font-size: clamp(1.7rem, 3.6vw, 2.9rem);
+  font-weight: 700;
+  line-height: 1.18;
+  letter-spacing: -0.035em;
+  color: var(--color-forest);
+}
+
+.statement em {
+  font-family: var(--font-serif-accent);
+  font-style: italic;
+  font-weight: 500;
+  color: var(--color-amber);
+}
+
+.story {
+  display: grid;
+  grid-template-columns: 5fr 6fr;
+  gap: 72px;
+  align-items: center;
+}
+
+.story figure {
+  position: relative;
+  margin: 0;
+  transform: rotate(-1.5deg);
+}
+
+.story figure img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  background: var(--color-sand-border);
+  border: 10px solid #fff;
+  box-shadow: 0 14px 36px rgba(30, 26, 23, 0.14);
+}
+
+.story h2 {
+  margin-top: 18px;
+  font-family: var(--font-heading);
+  font-size: clamp(2rem, 4vw, 3.1rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  color: var(--color-forest);
+}
+
+.story p {
+  margin-top: 20px;
+  font-size: 1.12rem;
+  line-height: 1.75;
+  color: #3B332D;
+}
+
+.values {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+}
+
+.values article {
+  padding-top: 18px;
+  border-top: 2px solid var(--color-forest);
+}
+
+.values .num {
+  font-family: var(--font-heading);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  color: var(--color-amber);
+}
+
+.values h3 {
+  margin-top: 8px;
+  font-family: var(--font-heading);
+  font-size: 1.6rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--color-forest);
+}
+
+.values p {
+  margin-top: 12px;
+  font-size: 1.06rem;
+  line-height: 1.65;
+  color: #3B332D;
+}
+
+/* ---------- Ministries ---------- */
+.min-row {
+  display: grid;
+  grid-template-columns: 90px 1fr 1fr;
+  gap: 48px;
+  padding: 56px 0;
+  border-top: 2px solid var(--color-forest);
+}
+
+.min-row:last-child {
+  border-bottom: 1px solid var(--color-sand-border);
+}
+
+.min-row .num {
+  font-family: var(--font-heading);
+  font-size: 2.6rem;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  color: var(--color-amber);
+}
+
+.min-row h2 {
+  font-family: var(--font-heading);
+  font-size: clamp(1.9rem, 3.4vw, 2.7rem);
+  font-weight: 800;
+  line-height: 1.02;
+  letter-spacing: -0.04em;
+  color: var(--color-forest);
+}
+
+.min-row .lead {
+  margin-top: 16px;
+  font-size: 1.14rem;
+  line-height: 1.65;
+  color: #3B332D;
+}
+
+.min-row .chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 22px;
+}
+
+.min-row .chips span {
+  padding: 5px 12px;
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: var(--color-forest);
+  background: var(--color-sand-surface);
+  border-radius: 2px;
+}
+
+.min-row ul {
+  list-style: none;
+  border-top: 1px solid var(--color-sand-border);
+}
+
+.min-row li {
+  padding: 16px 0;
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: #3B332D;
+  border-bottom: 1px solid var(--color-sand-border);
+}
+
+.min-row li strong {
+  display: block;
+  font-family: var(--font-heading);
+  font-size: 1.12rem;
+  letter-spacing: -0.02em;
+  color: var(--color-forest);
+}
+
+.min-row .text-link {
+  margin-top: 22px;
+}
+
+/* ---------- Team ---------- */
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 48px 40px;
+}
+
+.team-card {
+  padding: 0;
+  align-items: stretch;
+  text-align: left;
+  background: none;
+  border: 0;
+  box-shadow: none;
+  transform: none;
+}
+
+.team-card:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+.team-avatar-wrap {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1 / 1;
+  margin: 0;
+  border-radius: 0;
+  border: 1px solid var(--color-sand-border);
+  box-shadow: none;
+  overflow: hidden;
+  background: #fff;
+}
+
+.team-avatar-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 25%;
+  border-radius: 0;
+  border: 0;
+}
+
+.team-avatar-initials {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  font-family: var(--font-heading);
+  font-size: 4rem;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  color: var(--color-sand-bg);
+  background: var(--color-forest);
+}
+
+.team-name {
+  margin-top: 20px;
+  padding-top: 14px;
+  font-family: var(--font-heading);
+  font-size: 1.6rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--color-forest);
+  border-top: 2px solid var(--color-forest);
+}
+
+.team-role {
+  margin-top: 4px;
+  font-family: var(--font-heading);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-amber);
+}
+
+.team-desc {
+  margin-top: 12px;
+  font-size: 1.05rem;
+  line-height: 1.65;
+  color: #3B332D;
+}
+
+.team-solo {
+  max-width: 340px;
+}
+
+/* ---------- Contact ---------- */
+.contact-layout {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 80px;
+  align-items: start;
+}
+
+.contact-layout h2 {
+  margin-top: 18px;
+  font-family: var(--font-heading);
+  font-size: clamp(1.9rem, 3.4vw, 2.7rem);
+  font-weight: 800;
+  line-height: 1.02;
+  letter-spacing: -0.04em;
+  color: var(--color-forest);
+}
+
+.contact-layout .intro {
+  margin: 16px 0 28px;
+  font-size: 1.1rem;
+  line-height: 1.7;
+  color: #3B332D;
+}
+
+.contact-layout .form-label {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--color-forest);
+}
+
+.contact-layout .form-input,
+.contact-layout .form-textarea {
+  min-height: 52px;
+  font-size: 1.05rem;
+  background: #fff;
+  border: 1.5px solid var(--color-sand-border);
+  border-radius: var(--radius-sm);
+}
+
+.contact-layout .form-textarea {
+  min-height: 150px;
+}
+
+.contact-layout .btn-give {
+  width: 100%;
+  border: 0;
+  cursor: pointer;
+}
+
+.contact-info {
+  list-style: none;
+  margin-top: 24px;
+  border-top: 2px solid var(--color-forest);
+}
+
+.contact-info li {
+  padding: 20px 0;
+  border-bottom: 1px solid var(--color-sand-border);
+  font-size: 1.1rem;
+  line-height: 1.55;
+  color: #3B332D;
+}
+
+.contact-info small {
+  display: block;
+  margin-bottom: 4px;
+  font-family: var(--font-heading);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-amber);
+}
+
+.contact-info a {
+  font-weight: 700;
+  color: var(--color-forest);
+  border-bottom: 2px solid currentColor;
+}
+
+.contact-note {
+  margin-top: 28px;
+  padding: 18px 20px;
+  background: var(--color-gold-light);
+  border-left: 4px solid var(--color-gold);
+}
+
+.contact-note strong {
+  display: block;
+  font-family: var(--font-heading);
+  color: var(--color-forest);
+}
+
+.contact-note span {
+  display: block;
+  margin-top: 2px;
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: #3B332D;
+}
+
+/* ---------- Data-driven pages (events / gallery / announcements): lighter touch ---------- */
+.page-hero + .section {
+  padding-top: 56px;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 1024px) {
+  .give-layout,
+  .story,
+  .contact-layout {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+
+  .give-card {
+    position: static;
+  }
+
+  .story figure {
+    max-width: 420px;
+  }
+
+  .ways,
+  .values {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .team-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .min-row {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 40px 0;
+  }
+}
+
+@media (max-width: 767px) {
+  .page-hero {
+    padding: 56px 0 44px;
+  }
+
+  .page-hero-desc {
+    font-size: 1.08rem;
+  }
+
+  .pg-block {
+    padding: 64px 0;
+  }
+
+  .give-card {
+    padding: 22px 18px;
+  }
+
+  .give-card .amount-buttons {
+    gap: 8px;
+  }
+
+  .team-grid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+    max-width: 420px;
+  }
+
+  .notes-form {
+    flex-direction: column;
+    max-width: none;
+    flex-basis: 100%;
+  }
+
+  .faq summary {
+    font-size: 1.1rem;
+  }
+}

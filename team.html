@@ -26,35 +26,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Fraunces:ital,opsz,wght@1,9..144,400;1,9..144,500&family=Source+Sans+3:wght@400;600;700&display=swap" />
   <link rel="stylesheet" href="css/main.css" />
-  <style>
-    .team-grid {
-      display: grid !important;
-      grid-template-columns: repeat(3, 1fr) !important;
-      gap: 24px !important;
-    }
-    @media (max-width: 880px) {
-      .team-grid {
-        grid-template-columns: repeat(2, 1fr) !important;
-      }
-    }
-    @media (max-width: 540px) {
-      .team-grid {
-        grid-template-columns: 1fr !important;
-      }
-    }
-    .team-avatar-initials {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: linear-gradient(135deg, #622A2D 0%, #1F4E38 100%);
-      color: #FFFFFF;
-      font-size: 2.2rem;
-      font-weight: 850;
-      letter-spacing: 0.04em;
-    }
-  </style>
+  <link rel="stylesheet" href="css/home.css" />
+  <link rel="stylesheet" href="css/pages.css" />
 </head>
 <body>
 
@@ -107,22 +80,21 @@
   </header>
 
   <main>
+
     <section class="page-hero">
       <div class="container">
-        <span class="section-tag">Leadership & Servants</span>
-        <h1 class="page-hero-title">Meet the Team</h1>
-        <p class="page-hero-desc">Dedicated to international student hospitality, prayer support, and native-language Bible distribution in Bryan & College Station.</p>
+        <span class="section-tag">Leadership &amp; servants</span>
+        <h1 class="page-hero-title">Meet the <em>team.</em></h1>
+        <p class="page-hero-desc">Dedicated to international student hospitality, prayer support and native-language Bible distribution in Bryan and College Station.</p>
       </div>
     </section>
 
-    <!-- Leadership Section: 6 Team Members (2 rows x 3 columns) -->
-    <section class="section" style="padding-bottom: 40px;">
+    <section class="pg-block">
       <div class="container">
-        <div class="section-header" style="text-align: center; margin-bottom: 36px;">
-          <span class="section-tag">Core Ministry Leadership</span>
-          <h2 class="section-title">Leadership & Team Members</h2>
+        <div class="pg-head">
+          <p class="label"><span>01</span>Leadership</p>
+          <h2>The people behind the <em>table.</em></h2>
         </div>
-
         <div class="team-grid">
           
           <!-- 1. Fayez Farag -->
@@ -189,29 +161,21 @@
       </div>
     </section>
 
-    <!-- Campus Ministry & Student Fellowship Teams (Connect Church IM FBC) -->
-    <section class="section section-bg-sand" style="padding: 56px 0 72px 0;">
+    <section class="pg-block sand">
       <div class="container">
-        <div class="section-header" style="text-align: center; margin-bottom: 36px;">
-          <span class="section-tag">Campus Ministry & Fellowship</span>
-          <h2 class="section-title">Ministry Teams</h2>
-          <p class="section-subtitle">Student fellowship and campus teams serving together across Blinn and Texas A&M.</p>
+        <div class="pg-head">
+          <p class="label"><span>02</span>Campus ministry</p>
+          <h2>Ministry <em>teams.</em></h2>
+          <p>Student fellowship and campus teams serving together across Blinn and Texas A&amp;M.</p>
         </div>
-
-        <div style="display: flex; justify-content: center;">
-          <!-- Connect Church IM FBC Card -->
-          <div class="team-card" style="max-width: 320px; width: 100%;">
-            <div class="team-avatar-wrap">
-              <img src="images/im-fbc-team.jpg" alt="Connect Church IM FBC Team Photo" />
-            </div>
-            <h3 class="team-name">Connect Church IM FBC</h3>
-            <div class="team-role">Campus Ministry & Fellowship Team</div>
-            <p class="team-desc" id="imFbcDescription">
-              Welcoming international scholars and college students through weekly fellowship, gospel outreach, and discipleship across Blinn and Texas A&M.
-            </p>
+        <div class="team-card team-solo">
+          <div class="team-avatar-wrap">
+            <img src="images/im-fbc-team.jpg" alt="Connect Church IM FBC team photo" />
           </div>
+          <h3 class="team-name">Connect Church IM FBC</h3>
+          <div class="team-role">Campus ministry &amp; fellowship team</div>
+          <p class="team-desc" id="imFbcDescription">Welcoming international scholars and college students through weekly fellowship, gospel outreach and discipleship across Blinn and Texas A&amp;M.</p>
         </div>
-
       </div>
     </section>
   </main>

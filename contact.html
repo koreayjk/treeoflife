@@ -26,6 +26,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Fraunces:ital,opsz,wght@1,9..144,400;1,9..144,500&family=Source+Sans+3:wght@400;600;700&display=swap" />
   <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="css/home.css" />
+  <link rel="stylesheet" href="css/pages.css" />
 </head>
 <body>
 
@@ -78,74 +80,49 @@
   </header>
 
   <main>
+
     <section class="page-hero">
       <div class="container">
-        <span class="section-tag">Get in Touch</span>
-        <h1 class="page-hero-title">Contact Us</h1>
-        <p class="page-hero-desc">Have questions or want to partner with us? We'd love to hear from you.</p>
+        <span class="section-tag">Get in touch</span>
+        <h1 class="page-hero-title">Let&rsquo;s <em>talk.</em></h1>
+        <p class="page-hero-desc">Questions, prayer requests, or want to serve with us? We would love to hear from you.</p>
       </div>
     </section>
 
-    <section class="section">
-      <div class="container contact-grid">
-        <div class="contact-card">
-          <span class="section-tag">Send Message</span>
-          <h3 style="font-size: 1.5rem; font-weight: 800; color: var(--color-forest); margin-bottom: 14px; letter-spacing: -0.02em;">
-            We’d Love to Hear From You
-          </h3>
-
+    <section class="pg-block">
+      <div class="container contact-layout">
+        <div>
+          <p class="label"><span>01</span>Send a message</p>
+          <h2>We read every <em style="font-family:var(--font-serif-accent);font-weight:500;color:var(--color-amber)">note.</em></h2>
+          <p class="intro">Tell us how we can help or pray for you.</p>
           <form id="contactForm">
             <div class="form-group">
-              <label class="form-label" for="contactName">Your Name</label>
+              <label class="form-label" for="contactName">Your name</label>
               <input type="text" id="contactName" class="form-input" placeholder="Sarah Johnson" required />
             </div>
             <div class="form-group">
-              <label class="form-label" for="contactEmail">Email Address</label>
+              <label class="form-label" for="contactEmail">Email address</label>
               <input type="email" id="contactEmail" class="form-input" placeholder="sarah@example.com" required />
             </div>
             <div class="form-group">
               <label class="form-label" for="contactMsg">Message</label>
               <textarea id="contactMsg" class="form-textarea" placeholder="How can we help or pray for you?" required></textarea>
             </div>
-            <button type="submit" class="btn btn-primary" style="width: 100%;">
-              <i class="fa-solid fa-paper-plane"></i> Send Message
-            </button>
+            <button type="submit" class="btn-give">Send message</button>
           </form>
         </div>
-
-        <div class="contact-card" style="display: flex; flex-direction: column; justify-content: space-between;">
-          <div>
-            <span class="section-tag">Headquarters</span>
-            <h3 style="font-size: 1.5rem; font-weight: 800; color: var(--color-forest); margin-bottom: 14px; letter-spacing: -0.02em;">
-              Ministry Office
-            </h3>
-            <p style="color: var(--color-text-muted); font-size: 0.92rem; line-height: 1.6;">
-              Tree of Life Global Missions is located in Bryan, Texas, serving Texas A&M and Brazos Valley campuses.
-            </p>
-
-            <ul style="list-style: none; margin-top: 20px;">
-              <li style="display: flex; gap: 14px; padding: 12px 0; border-bottom: 1px solid var(--color-sand-border);">
-                <i class="fa-solid fa-location-dot" style="color: var(--color-amber); font-size: 1.15rem; margin-top: 3px;"></i>
-                <div>
-                  <strong>Address:</strong><br />
-                  2305 Barak Ln, Bryan, TX 77802
-                </div>
-              </li>
-              <li style="display: flex; gap: 14px; padding: 12px 0; border-bottom: 1px solid var(--color-sand-border);">
-                <i class="fa-solid fa-envelope" style="color: var(--color-amber); font-size: 1.15rem; margin-top: 3px;"></i>
-                <div>
-                  <strong>Email:</strong><br />
-                  <a href="mailto:info@treeoflifemissions.org" style="color: var(--color-forest); font-weight: 700;">info@treeoflifemissions.org</a>
-                </div>
-              </li>
-            </ul>
+        <aside>
+          <p class="label"><span>02</span>Ministry office</p>
+          <ul class="contact-info">
+            <li><small>Address</small>2305 Barak Ln<br />Bryan, TX 77802</li>
+            <li><small>Email</small><a href="mailto:info@treeoflifemissions.org">info@treeoflifemissions.org</a></li>
+            <li><small>Serving</small>Texas A&amp;M and the Brazos Valley campuses</li>
+          </ul>
+          <div class="contact-note">
+            <strong>501(c)(3) nonprofit</strong>
+            <span>Contributions are tax-deductible under US federal law.</span>
           </div>
-
-          <div style="background: var(--color-gold-light); padding: 16px; border-radius: var(--radius-sm); border: 1px solid rgba(217,115,43,0.2); margin-top: 24px;">
-            <h4 style="font-size: 0.88rem; color: var(--color-forest); font-weight: 800; margin-bottom: 2px;">501(c)(3) Non-Profit Organization</h4>
-            <p style="font-size: 0.8rem; color: var(--color-text-muted); margin: 0;">Contributions are tax-deductible under US federal law.</p>
-          </div>
-        </div>
+        </aside>
       </div>
     </section>
   </main>
