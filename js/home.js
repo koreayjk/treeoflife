@@ -182,7 +182,6 @@
     var stage = document.querySelector('.verse-stage');
     if (!stage) return;
     var items = stage.querySelectorAll('.verse-item');
-    var words = document.querySelectorAll('.word-item');
     var label = document.getElementById('verseLang');
     var bar = document.querySelector('.verse-progress');
     var panel = document.querySelector('.hero-panel');
@@ -200,20 +199,6 @@
       if (!paused) bar.classList.add('is-running');
     }
 
-    function rise(prev, next) {
-      // the old word slides up and out, the next one rises in from below
-      if (!prev || prev === next) return;
-      prev.classList.remove('is-active');
-      prev.classList.add('is-leaving');
-      next.classList.add('is-active');
-      setTimeout(function () {
-        prev.classList.add('no-anim');
-        prev.classList.remove('is-leaving');
-        void prev.offsetWidth;
-        prev.classList.remove('no-anim');
-      }, 1100);
-    }
-
     function show(next) {
       var prevIndex = index;
       items[prevIndex].classList.remove('is-active');
@@ -222,8 +207,6 @@
       var item = items[index];
       item.classList.add('is-active');
       item.removeAttribute('aria-hidden');
-      if (words.length === items.length) rise(words[prevIndex], words[index]);
-
       var native = item.getAttribute('data-native');
       var english = item.getAttribute('data-english');
       label.style.opacity = 0;

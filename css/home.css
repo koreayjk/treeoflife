@@ -236,8 +236,8 @@ html.intro-on .intro-loader {
   background: var(--color-forest);
 }
 
-/* ---------- The word "Bible" rising through many languages (see initVerses in js/home.js) ---------- */
-.word-kicker {
+/* ---------- "Bible" in many languages, rising forever (pure CSS; three columns at different speeds) ---------- */
+.rise-kicker {
   font-family: var(--font-heading);
   font-size: 0.8rem;
   font-weight: 700;
@@ -246,58 +246,54 @@ html.intro-on .intro-loader {
   color: #D9B9AE;
 }
 
-.word-stage {
+.rise-window {
   display: grid;
-  margin-top: 10px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0 28px;
+  height: 260px;
+  margin-top: 14px;
   overflow: hidden;
-  height: 1.3em;
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 24%, #000 76%, transparent 100%);
+  mask-image: linear-gradient(180deg, transparent 0%, #000 24%, #000 76%, transparent 100%);
+}
+
+.rise-col {
+  list-style: none;
+  animation: riseUp var(--ms, 48000ms) linear infinite;
+  will-change: transform;
+}
+
+.rise-col li {
+  padding: 7px 0;
   font-family: var(--font-heading);
-  font-size: clamp(4.4rem, 10vw, 8.8rem);
-  font-weight: 800;
-  line-height: 1.3;
-  letter-spacing: -0.04em;
+  font-size: 1.75rem;
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
   color: var(--color-sand-bg);
 }
 
-.word-item {
-  grid-area: 1 / 1;
-  align-self: center;
-  white-space: nowrap;
-  opacity: 0;
-  transform: translateY(105%);
-  transition: transform 1s cubic-bezier(0.65, 0, 0.2, 1), opacity 0.7s ease;
+.rise-col li:nth-child(3n + 2) {
+  color: #D9B9AE;
 }
 
-.word-item.is-active {
-  opacity: 1;
-  transform: none;
-}
-
-.word-item.is-leaving {
-  opacity: 0;
-  transform: translateY(-105%);
-}
-
-.word-item.no-anim {
-  transition: none;
-}
-
-.word-item[lang="ar"] {
-  font-size: 0.54em;
+.rise-col li[lang="ar"] {
+  font-size: 1.45rem;
   letter-spacing: 0;
-  font-weight: 700;
 }
 
-.word-item[lang="ur"] {
-  font-size: 0.85em;
+.rise-col li[lang="ur"],
+.rise-col li[lang="hi"],
+.rise-col li[lang="ko"],
+.rise-col li[lang="zh-CN"] {
   letter-spacing: 0;
-  font-weight: 700;
 }
 
-.word-item[lang="hi"],
-.word-item[lang="ko"],
-.word-item[lang="zh-CN"] {
-  letter-spacing: 0;
+/* the list is rendered twice, so moving it up by half its height loops without a jump */
+@keyframes riseUp {
+  from { transform: translateY(0); }
+  to { transform: translateY(-50%); }
 }
 
 .hero-stats {
@@ -749,6 +745,24 @@ html.hero-go .hero-anim {
 }
 
 @media (max-width: 767px) {
+  .rise-window {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0 20px;
+    height: 220px;
+  }
+
+  .rise-col:nth-child(3) {
+    display: none;
+  }
+
+  .rise-col li {
+    font-size: 1.45rem;
+  }
+
+  .rise-col li[lang="ar"] {
+    font-size: 1.2rem;
+  }
+
   .hero-copy {
     padding-top: 36px;
     padding-bottom: 36px;
